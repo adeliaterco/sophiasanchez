@@ -189,12 +189,12 @@ export default function Result({ onNavigate }: ResultProps) {
             if (vslPlaceholder) {
                 vslPlaceholder.innerHTML = `
                     <div style="position: relative; width: 100%; padding-bottom: 56.25%; background: #000; border-radius: 8px; overflow: hidden;">
-                        <vturb-smartplayer id="vid-694bc5dff757812677c3b148" style="display: block; margin: 0 auto; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
+                        <vturb-smartplayer id="vid-695497a4a1bd76c80af62be3" style="display: block; margin: 0 auto; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
                     </div>
                 `;
                 if (!document.querySelector('script[src*="player.js"]')) {
                     const s = document.createElement("script");
-                    s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/694bc5dff757812677c3b148/v4/player.js";
+                    s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/695497a4a1bd76c80af62be3/v4/player.js";
                     s.async = true;
                     document.head.appendChild(s);
                 }
