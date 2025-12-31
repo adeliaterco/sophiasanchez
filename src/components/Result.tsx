@@ -769,7 +769,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                         color: '#10b981',
                                         fontWeight: '900'
                                     }}>
-                                        $9.90
+                                        $17
                                     </strong>
                                 </div>
                             </div>
@@ -787,7 +787,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                     fontWeight: '700',
                                     margin: 0
                                 }}>
-                                    🔥 92% DE DESCUENTO - SOLO HOY
+                                    🔥 86% DE DESCUENTO - SOLO HOY
                                 </p>
                             </div>
                         </div>
@@ -858,8 +858,8 @@ export default function Result({ onNavigate }: ResultProps) {
                         {/* PREÇO E DESCONTO (MANTIDO) */}
                         <div className="price-box">
                             <p className="price-old">Precio regular: $123</p>
-                            <p className="price-new">$9.90</p>
-                            <p className="price-discount">💰 92% de descuento HOY</p>
+                            <p className="price-new">$17.00</p>
+                            <p className="price-discount">💰 86% de descuento HOY</p>
                         </div>
 
                         {/* ✅ ALTERADO: CTA OTIMIZADO COM PREÇO E URGÊNCIA */}
@@ -873,7 +873,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             }}
                         >
                             <span style={{ display: 'block', marginBottom: '4px' }}>
-                                🚀 SÍ, QUIERO ACCESO POR $9.90
+                                🚀 SÍ, QUIERO ACCESO POR $17
                             </span>
                             <span style={{ 
                                 display: 'block', 
