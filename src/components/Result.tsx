@@ -188,7 +188,7 @@ export default function Result({ onNavigate }: ResultProps) {
             const vslPlaceholder = videoSectionRef.current.querySelector('.vsl-placeholder');
             if (vslPlaceholder) {
                 vslPlaceholder.innerHTML = `
-                    <div style="position: relative; width: 100%; padding-bottom: 56.25%; background: #000; border-radius: 8px; overflow: hidden;">
+                    <div style="position: relative; width: 100%; padding-bottom: 177.78%; background: #000; border-radius: 8px; overflow: hidden;">
                         <vturb-smartplayer id="vid-695497a4a1bd76c80af62be3" style="display: block; margin: 0 auto; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
                     </div>
                 `;
