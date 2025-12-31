@@ -66,16 +66,17 @@ export default function Landing({ onNavigate }: LandingProps) {
             <div className="content-wrapper">
                 <main className="landing-main-simple">
                     
-                    {/* HEADLINE SIMPLES */}
+                    {/* ========================================
+                        🆕 HEADLINE NOVA - ESTILO IMAGEM ANEXADA
+                        ======================================== */}
                     <h1 className="headline-simple">
                         <span className="alert-emoji">⚠️</span>
                         <span className="headline-text">
-                            Tu Ex Está Tomando Una Decisión AHORA... Y Tú Ni Lo Sabes
+                            <span className="highlight-orange">ATENCIÓN</span>: Hay un <span className="highlight-orange-italic">truco sucio</span>, pero <span className="highlight-orange">efectivo</span> para recuperar a tu ex... 💔, ¡y <span className="highlight-orange">está aquí</span>! Entonces no uses <span className="highlight-orange">esto 👇</span>, si no estás listo para que <span className="highlight-orange">vuelva rogando</span>!
                         </span>
-                        <span className="headline-urgency">(72h para Actuar)</span>
                     </h1>
 
-                    {/* CTA GRANDE */}
+                    {/* CTA GRANDE COM ANIMAÇÃO DE PULSAÇÃO */}
                     <div className="cta-section-simple">
                         <button className="cta-button-simple" onClick={handleCTAClick}>
                             <span className="cta-glow"></span>
@@ -142,7 +143,9 @@ export default function Landing({ onNavigate }: LandingProps) {
                     min-height: 70vh;
                 }
 
-                /* HEADLINE SIMPLES */
+                /* ========================================
+                   🆕 HEADLINE COM DESTAQUES LARANJA/AMARELO
+                   ======================================== */
                 .headline-simple {
                     text-align: center;
                     font-size: 2.5rem;
@@ -167,11 +170,22 @@ export default function Landing({ onNavigate }: LandingProps) {
                     line-height: 1.3;
                 }
 
-                .headline-urgency {
-                    font-size: 1.5rem;
-                    color: #fbbf24;
-                    font-weight: 600;
-                    margin-top: 0.5rem;
+                /* 🆕 DESTAQUES EM GRADIENTE LARANJA/AMARELO */
+                .highlight-orange {
+                    background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    font-weight: 800;
+                }
+
+                .highlight-orange-italic {
+                    background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    font-weight: 800;
+                    font-style: italic;
                 }
 
                 @keyframes pulse {
@@ -185,7 +199,9 @@ export default function Landing({ onNavigate }: LandingProps) {
                     }
                 }
 
-                /* CTA SIMPLES E GRANDE */
+                /* ========================================
+                   🆕 CTA COM ANIMAÇÃO DE PULSAÇÃO
+                   ======================================== */
                 .cta-section-simple {
                     width: 100%;
                     display: flex;
@@ -212,15 +228,30 @@ export default function Landing({ onNavigate }: LandingProps) {
                     min-width: 90%;
                     text-transform: uppercase;
                     letter-spacing: 1px;
+                    /* 🆕 ANIMAÇÃO DE PULSAÇÃO */
+                    animation: pulse-cta 2s ease-in-out infinite;
+                }
+
+                /* 🆕 KEYFRAME PARA PULSAÇÃO DO CTA */
+                @keyframes pulse-cta {
+                    0%, 100% { 
+                        transform: scale(1);
+                        box-shadow: 0 8px 24px rgba(255, 59, 59, 0.4);
+                    }
+                    50% { 
+                        transform: scale(1.05);
+                        box-shadow: 0 12px 32px rgba(255, 59, 59, 0.7);
+                    }
                 }
 
                 .cta-button-simple:hover {
-                    transform: translateY(-4px);
+                    transform: translateY(-4px) scale(1.05);
                     box-shadow: 0 12px 32px rgba(255, 59, 59, 0.6);
+                    animation: none; /* Remove pulsação no hover */
                 }
 
                 .cta-button-simple:active {
-                    transform: translateY(-2px);
+                    transform: translateY(-2px) scale(1.02);
                 }
 
                 .cta-icon {
@@ -275,10 +306,6 @@ export default function Landing({ onNavigate }: LandingProps) {
                         font-size: 1.6rem;
                     }
 
-                    .headline-urgency {
-                        font-size: 1.2rem;
-                    }
-
                     .cta-button-simple {
                         padding: 1.5rem 2rem;
                         font-size: 1.2rem;
@@ -293,10 +320,6 @@ export default function Landing({ onNavigate }: LandingProps) {
                 @media (max-width: 480px) {
                     .headline-text {
                         font-size: 1.4rem;
-                    }
-
-                    .headline-urgency {
-                        font-size: 1rem;
                     }
 
                     .cta-button-simple {
