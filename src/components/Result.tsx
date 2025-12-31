@@ -487,9 +487,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                     }}>
                                         "Ella estaba con otro tipo. Yo estaba destruido. 
                                         El <strong style={{ color: '#10b981' }}>Módulo 4 (Protocolo de Emergencia)</strong> 
-                                        me salvó de cometer errores fatales. Seguí las 3 fases de la Ventana de 72 Horas al pie de la letra, 
-                                        y en 19 días ella terminó con él y volvió conmigo. 
-                                        <strong style={{ color: '#facc15' }}> No lo hubiera creído si no me pasaba a mí</strong>. 
+                                        me salvó de cometer errores fatales. </strong>. 
                                         Sophia sabe exactamente cómo funciona la mente femenina."
                                     </p>
                                     <div style={{
@@ -570,9 +568,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                         fontStyle: 'italic'
                                     }}>
                                         "Llevábamos 5 meses sin hablar. Ella me bloqueó de todo. 
-                                        Pensé que era imposible. Apliqué el <strong style={{ color: '#eab308' }}>Protocolo de Contacto Zero Inverso</strong> 
-                                        del Módulo 1, y en 13 días ella me desbloqueó y me escribió primero. 
-                                        Hoy llevamos 3 meses juntos de nuevo, <strong style={{ color: '#facc15' }}>y la relación es 10 veces mejor</strong>. 
+                                        Pensé que era imposible. 
                                         Este método funciona incluso en casos extremos como el mío."
                                     </p>
                                     <div style={{
