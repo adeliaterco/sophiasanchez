@@ -1204,6 +1204,109 @@ export default function Result({ onNavigate }: ResultProps) {
                     transition: width 1s linear;
                     border-radius: 5px;
                 }
+                    /* ========================================
+   MELHORIAS DE VISUALIZAÇÃO - VENTANA 72H
+   ======================================== */
+
+/* Texto principal da Ventana 72h - maior e mais legível */
+.ventana-intro {
+    font-size: clamp(1.1rem, 4.5vw, 1.3rem) !important;
+    line-height: 1.8 !important;
+    color: white !important;
+    margin-bottom: clamp(24px, 5vw, 32px) !important;
+}
+
+/* Container das fases - mais espaçamento */
+.fases-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 5vw, 32px) !important;
+    margin: clamp(24px, 5vw, 32px) 0 !important;
+}
+
+/* Cada fase individual - card visual */
+.fase-item-custom {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(249, 115, 22, 0.1)) !important;
+    border: 2px solid rgba(234, 179, 8, 0.4) !important;
+    border-radius: 16px !important;
+    padding: clamp(20px, 5vw, 28px) !important;
+    box-shadow: 0 8px 24px rgba(234, 179, 8, 0.2) !important;
+}
+
+/* Título de cada fase - destaque */
+.fase-item-custom strong {
+    display: block !important;
+    font-size: clamp(1.2rem, 5vw, 1.5rem) !important;
+    color: #facc15 !important;
+    margin-bottom: clamp(12px, 3vw, 16px) !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Texto de cada fase - maior e espaçado */
+.fase-item-custom p {
+    font-size: clamp(1rem, 4vw, 1.2rem) !important;
+    line-height: 1.7 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    margin: 0 !important;
+}
+
+/* Container da Ventana 72h - destaque visual */
+.ventana-box-custom {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(234, 179, 8, 0.1)) !important;
+    border: 3px solid rgba(249, 115, 22, 0.5) !important;
+    border-radius: 20px !important;
+    padding: clamp(24px, 6vw, 40px) !important;
+    box-shadow: 0 12px 48px rgba(249, 115, 22, 0.3) !important;
+}
+
+/* Header da Ventana - mais impactante */
+.ventana-header-custom {
+    text-align: center !important;
+    margin-bottom: clamp(24px, 5vw, 32px) !important;
+}
+
+.ventana-header-custom span {
+    font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
+    display: block !important;
+    margin-bottom: clamp(12px, 3vw, 16px) !important;
+}
+
+.ventana-header-custom h2 {
+    font-size: clamp(1.5rem, 6vw, 2rem) !important;
+    color: #f97316 !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+}
+
+/* Imagem da Ventana - mais destaque */
+.ventana-img {
+    width: 100% !important;
+    max-width: 600px !important;
+    border-radius: 16px !important;
+    margin: clamp(24px, 5vw, 32px) auto !important;
+    display: block !important;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4) !important;
+    border: 3px solid rgba(249, 115, 22, 0.3) !important;
+}
+
+/* Separadores visuais (se houver "—" no texto) */
+.ventana-intro strong,
+.fase-item-custom strong {
+    color: #facc15 !important;
+}
+
+/* Melhorar legibilidade em mobile */
+@media (max-width: 768px) {
+    .ventana-box-custom {
+        padding: clamp(20px, 5vw, 24px) !important;
+    }
+    
+    .fase-item-custom {
+        padding: clamp(16px, 4vw, 20px) !important;
+    }
+}
             `}</style>
         </div>
     );
