@@ -606,12 +606,12 @@ export default function Result({ onNavigate }: ResultProps) {
                             <span>⚡</span>
                             <h2>LA VENTANA DE 72 HORAS</h2>
                         </div>
-                        <p className="ventana-intro">{getVentana72Copy(gender)}</p>
+                        <p className="ventana-intro" style={{ whiteSpace: 'pre-line' }}>{getVentana72Copy(gender)}</p>
                         <div className="fases-list">
                             {[1, 2, 3].map(f => (
                                 <div key={f} className="fase-item-custom">
                                     <strong>FASE {f} ({f === 1 ? '0-24h' : f === 2 ? '24-48h' : '48-72h'})</strong>
-                                    <p>{getFaseText(gender, f)}</p>
+                                    <p style={{ whiteSpace: 'pre-line' }}>{getFaseText(gender, f)}</p>
                                 </div>
                             ))}
                         </div>

@@ -95,17 +95,17 @@ La clave no es rogar, sino entender la psicología de ${pronoun} y actuar de for
 export function getVentana72Copy(gender: string): string {
     const pronoun = gender === 'HOMBRE' ? 'ella' : 'él';
     
-    return `**No importa si se separaron hace 3 días o hace 3 meses.**
+    return `No importa si se separaron hace 3 días o hace 3 meses.
 
 Aquí está la verdad que los psicólogos comportamentales descubrieron:
 
-**El cerebro humano opera en ciclos de 72 horas.**
+El cerebro humano opera en ciclos de 72 horas.
 
 Cada vez que tú tomas una ACCIÓN ESTRATÉGICA, el cerebro de ${pronoun} entra en un nuevo ciclo de 72 horas donde todo puede cambiar.
 
----
+—
 
-**Aquí está lo crucial:**
+Aquí está lo crucial:
 
 En cada una de estas 3 fases, hay acciones CORRECTAS e INCORRECTAS.
 
@@ -113,9 +113,9 @@ En cada una de estas 3 fases, hay acciones CORRECTAS e INCORRECTAS.
 
 ❌ Si actúas incorrecto, su cerebro borra la atracción.
 
----
+—
 
-**Tu plan personalizado revela EXACTAMENTE qué hacer en cada fase.**`;
+Tu plan personalizado revela EXACTAMENTE qué hacer en cada fase.`;
 }
 
 export function getOfferTitle(gender: string): string {
@@ -161,29 +161,29 @@ export function getFaseText(gender: string, fase: number): string {
     const oppositeGender = gender === 'HOMBRE' ? 'él' : 'ella';
     
     const fases: Record<number, string> = {
-        1: `**${pronoun} recibe la primera señal de que algo cambió en ti.**
+        1: `${pronoun} recibe la primera señal de que algo cambió en ti.
 
 Su cerebro abandona el "modo alivio" y activa el "modo curiosidad".
 
-Empieza a preguntarse: *"¿Qué está pasando con ${oppositeGender}?"*
+Empieza a preguntarse: "¿Qué está pasando con ${oppositeGender}?"
 
-⚠️ **PELIGRO:** Si actúas incorrectamente aquí, confirmas que ${pronounLower} tomó la decisión correcta.`,
+⚠️ PELIGRO: Si actúas incorrectamente aquí, confirmas que ${pronounLower} tomó la decisión correcta.`,
         
-        2: `**${pronoun} empieza a reevaluar las memorias que había "archivado".**
+        2: `${pronoun} empieza a reevaluar las memorias que había "archivado".
 
 La oxitocina (hormona del apego) se reactiva.
 
 Los buenos momentos que ${pronounLower} había "olvidado" vuelven a su mente.
 
-⚠️ **PELIGRO:** Si presionas demasiado, ${pronounLower} cierra el ciclo y te bloquea definitivamente.`,
+⚠️ PELIGRO: Si presionas demasiado, ${pronounLower} cierra el ciclo y te bloquea definitivamente.`,
         
-        3: `**${pronoun} siente la necesidad de "cerrar el ciclo" de forma definitiva.**
+        3: `${pronoun} siente la necesidad de "cerrar el ciclo" de forma definitiva.
 
 Su cerebro busca una resolución emocional.
 
 Aquí es donde tú reapareces de forma estratégica con el Protocolo de Reconexión.
 
-⚠️ **PELIGRO:** 87% de las personas pierden a su ex en esta fase por no saber qué hacer.`
+⚠️ PELIGRO: 87% de las personas pierden a su ex en esta fase por no saber qué hacer.`
     };
     
     return fases[fase] || '';
