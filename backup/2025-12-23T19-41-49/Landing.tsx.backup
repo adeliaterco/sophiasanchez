@@ -1,0 +1,329 @@
+import { useEffect } from 'react';
+import { tracking } from '../utils/tracking';
+import { storage } from '../utils/storage';
+import { ga4Tracking } from '../utils/ga4Tracking';
+
+interface LandingProps {
+    onNavigate: (page: string) => void;
+}
+
+export default function Landing({ onNavigate }: LandingProps) {
+    // ========================================
+    // ✅ SISTEMA DE CAPTURA DE UTMs (PRESERVADO)
+    // ========================================
+    const captureUTMs = () => {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const utms: Record<string, string> = {};
+
+            // Captura UTMs padrão
+            const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+            utmParams.forEach(param => {
+                const value = urlParams.get(param);
+                if (value) utms[param] = value;
+            });
+
+            // Captura Click IDs
+            const clickIds = ['fbclid', 'gclid', 'ttclid'];
+            clickIds.forEach(param => {
+                const value = urlParams.get(param);
+                if (value) utms[param] = value;
+            });
+
+            // Armazena no localStorage
+            if (Object.keys(utms).length > 0) {
+                localStorage.setItem('quiz_utms', JSON.stringify(utms));
+                console.log('✅ UTMs capturadas:', utms);
+            } else {
+                console.log('ℹ️ Nenhuma UTM encontrada na URL');
+            }
+        } catch (error) {
+            console.error('❌ Erro ao capturar UTMs:', error);
+        }
+    };
+
+    useEffect(() => {
+        // ✅ CAPTURA UTMs ASSIM QUE A PÁGINA CARREGA
+        captureUTMs();
+
+        tracking.pageView('landing');
+        ga4Tracking.landingPageView();
+
+        const scrollObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        tracking.scrollDepth(50);
+                        ga4Tracking.landingScrollDepth(50);
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+
+        const ctaElement = document.querySelector('.cta-section-simple');
+        if (ctaElement) scrollObserver.observe(ctaElement);
+
+        return () => {
+            scrollObserver.disconnect();
+        };
+    }, []);
+
+    const handleCTAClick = () => {
+        tracking.ctaClicked('landing_primary');
+        ga4Tracking.landingCTAClick();
+        onNavigate('chat');
+    };
+
+    return (
+        <div className="landing-container">
+            <div className="matrix-bg"></div>
+            <div className="scanlines"></div>
+
+            <div className="content-wrapper">
+                <main className="landing-main-simple">
+                    
+                    {/* HEADLINE SIMPLES */}
+                    <h1 className="headline-simple">
+                        <span className="alert-emoji">⚠️</span>
+                        <span className="headline-text">
+                            Tu Ex Está Tomando Una Decisión AHORA... Y Tú Ni Lo Sabes
+                        </span>
+                        <span className="headline-urgency">(72h para Actuar)</span>
+                    </h1>
+
+                    {/* CTA GRANDE */}
+                    <div className="cta-section-simple">
+                        <button className="cta-button-simple" onClick={handleCTAClick}>
+                            <span className="cta-glow"></span>
+                            <span className="cta-icon">⏰</span>
+                            <span className="cta-text">DESCUBRIR ANTES QUE SEA TARDE</span>
+                        </button>
+                    </div>
+
+                </main>
+
+                {/* FOOTER MINIMALISTA */}
+                <footer className="landing-footer-simple">
+                    <p className="disclaimer-simple">
+                        Análisis 100% privado y confidencial
+                    </p>
+                </footer>
+            </div>
+
+            {/* CSS INLINE */}
+            <style jsx>{`
+                .landing-container {
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    background: #000;
+                    overflow: hidden;
+                }
+
+                .matrix-bg {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 0;
+                }
+
+                .scanlines {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 1;
+                    pointer-events: none;
+                }
+
+                .content-wrapper {
+                    position: relative;
+                    z-index: 2;
+                    width: 100%;
+                    max-width: 800px;
+                    padding: 2rem;
+                }
+
+                .landing-main-simple {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 3rem;
+                    min-height: 70vh;
+                }
+
+                /* HEADLINE SIMPLES */
+                .headline-simple {
+                    text-align: center;
+                    font-size: 2.5rem;
+                    line-height: 1.3;
+                    color: #fff;
+                    font-weight: 700;
+                    margin: 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                }
+
+                .alert-emoji {
+                    font-size: 4rem;
+                    animation: pulse 2s infinite;
+                }
+
+                .headline-text {
+                    font-size: 2.2rem;
+                    font-weight: 700;
+                    line-height: 1.3;
+                }
+
+                .headline-urgency {
+                    font-size: 1.5rem;
+                    color: #fbbf24;
+                    font-weight: 600;
+                    margin-top: 0.5rem;
+                }
+
+                @keyframes pulse {
+                    0%, 100% { 
+                        opacity: 1; 
+                        transform: scale(1);
+                    }
+                    50% { 
+                        opacity: 0.7; 
+                        transform: scale(1.1);
+                    }
+                }
+
+                /* CTA SIMPLES E GRANDE */
+                .cta-section-simple {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .cta-button-simple {
+                    background: linear-gradient(135deg, #ff3b3b 0%, #ff6b6b 100%);
+                    color: #fff;
+                    border: none;
+                    border-radius: 16px;
+                    padding: 2rem 3rem;
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 8px 24px rgba(255, 59, 59, 0.4);
+                    position: relative;
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+                    min-width: 90%;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+
+                .cta-button-simple:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 12px 32px rgba(255, 59, 59, 0.6);
+                }
+
+                .cta-button-simple:active {
+                    transform: translateY(-2px);
+                }
+
+                .cta-icon {
+                    font-size: 2rem;
+                }
+
+                .cta-text {
+                    position: relative;
+                    z-index: 2;
+                }
+
+                .cta-glow {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                    animation: glow-slide 3s infinite;
+                    z-index: 1;
+                }
+
+                @keyframes glow-slide {
+                    0% { transform: translateX(-100%); }
+                    100% { transform: translateX(100%); }
+                }
+
+                /* FOOTER MINIMALISTA */
+                .landing-footer-simple {
+                    text-align: center;
+                    padding: 2rem 0;
+                    margin-top: 4rem;
+                }
+
+                .disclaimer-simple {
+                    font-size: 0.85rem;
+                    color: rgba(255, 255, 255, 0.5);
+                    margin: 0;
+                }
+
+                /* RESPONSIVO */
+                @media (max-width: 768px) {
+                    .headline-simple {
+                        font-size: 1.8rem;
+                    }
+
+                    .alert-emoji {
+                        font-size: 3rem;
+                    }
+
+                    .headline-text {
+                        font-size: 1.6rem;
+                    }
+
+                    .headline-urgency {
+                        font-size: 1.2rem;
+                    }
+
+                    .cta-button-simple {
+                        padding: 1.5rem 2rem;
+                        font-size: 1.2rem;
+                        min-width: 100%;
+                    }
+
+                    .cta-icon {
+                        font-size: 1.5rem;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .headline-text {
+                        font-size: 1.4rem;
+                    }
+
+                    .headline-urgency {
+                        font-size: 1rem;
+                    }
+
+                    .cta-button-simple {
+                        padding: 1.25rem 1.5rem;
+                        font-size: 1rem;
+                        flex-direction: column;
+                        gap: 0.5rem;
+                    }
+                }
+            `}</style>
+        </div>
+    );
+}

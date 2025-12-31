@@ -1,0 +1,10 @@
+// ✅ Declaração global para o pixelId do Utmify
+declare global {
+  interface Window {
+    pixelId: string;
+    dataLayer: any[];
+    gtag: (...args: any[]) => void;
+  }
+}
+
+export {};
