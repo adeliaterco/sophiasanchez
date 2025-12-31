@@ -318,7 +318,7 @@ export default function Chat({ onNavigate }: ChatProps) {
         {messages.map((msg, idx) => (
           <div key={idx} className={`message ${msg.type}`}>
             {msg.type === 'bot' && (
-              <div className="avatar-small">RA</div>
+              <div className="avatar-small">SS</div>
             )}
             <div className="message-bubble">
               {msg.isTyping ? (

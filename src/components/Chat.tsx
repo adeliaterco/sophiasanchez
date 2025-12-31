@@ -166,7 +166,7 @@ export default function Chat({ onNavigate }: ChatProps) {
 
     const initialMessage: Message = {
       type: 'bot',
-      text: 'Hola. Soy Ricardo Abreu, especialista en reconquista mediante psicología conductual. Mi sistema detectó tu búsqueda de respuestas. Estoy aquí para analizar tu caso.',
+      text: 'Hola. Soy Sophia Sanchez, especialista en reconquista mediante psicología conductual. Mi sistema detectó tu búsqueda de respuestas. Estoy aquí para analizar tu caso.',
       isTyping: true,
     };
 

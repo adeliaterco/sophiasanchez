@@ -490,7 +490,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                         me salvó de cometer errores fatales. Seguí las 3 fases de la Ventana de 72 Horas al pie de la letra, 
                                         y en 19 días ella terminó con él y volvió conmigo. 
                                         <strong style={{ color: '#facc15' }}> No lo hubiera creído si no me pasaba a mí</strong>. 
-                                        Ricardo sabe exactamente cómo funciona la mente femenina."
+                                        Sophia sabe exactamente cómo funciona la mente femenina."
                                     </p>
                                     <div style={{
                                         marginTop: 'clamp(12px, 3vw, 16px)',
