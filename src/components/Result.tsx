@@ -966,7 +966,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             ✨ {peopleBuying} comprando ahora
                         </p>
 
-                        {/* PROVA SOCIAL +12.847 (MANTIDO) */}
+                        {/* PROVA SOCIAL +9.247 (MANTIDO) */}
                         <p className="social-proof-count" style={{
                             textAlign: 'center',
                             color: 'rgb(74, 222, 128)',
@@ -976,7 +976,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             fontWeight: '500',
                             opacity: 0.85
                         }}>
-                            ✓ +12.847 reconquistas exitosas
+                            ✓ +9.247 reconquistas exitosas
                         </p>
 
                         {/* EXCLUSIVIDADE (MANTIDO) */}
