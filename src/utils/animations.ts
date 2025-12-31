@@ -43,7 +43,7 @@ export const playKeySound = () => {
 };
 
 export const getHotmartUrl = (): string => {
-  const baseUrl = 'https://pay.hotmart.com/F100142422S?off=g0y3vexd';
+  const baseUrl = 'https://pay.hotmart.com/F100142422S?checkoutMode=10';
   const params = new URLSearchParams(window.location.search);
   const utmParams: string[] = [];
 
