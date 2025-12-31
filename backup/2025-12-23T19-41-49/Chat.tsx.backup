@@ -391,7 +391,7 @@ export default function Chat({ onNavigate }: ChatProps) {
             <button className="option-button cta-final" onClick={handleViewPlan}>
               VER MI PLAN PERSONALIZADO
             </button>
-            <p className="completion-count">+12.847 planes revelados</p>
+            <p className="completion-count">+9.247 planes revelados</p>
           </div>
         )}
 
