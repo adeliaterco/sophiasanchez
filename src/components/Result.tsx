@@ -201,9 +201,9 @@ export default function Result({ onNavigate }: ResultProps) {
         if (currentPhase !== 4 || !preOfferVideoSectionRef.current) return;
         
         const timer = setTimeout(() => {
-            if (!document.querySelector('script[src*="69569b62cfe8523273766a53"]')) {
+            if (!document.querySelector('script[src*="6956c53dd883372e563d2c19"]')) {
                 const s = document.createElement("script");
-                s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/69569b62cfe8523273766a53/v4/player.js";
+                s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/6956c53dd883372e563d2c19/v4/player.js";
                 s.async = true;
                 document.head.appendChild(s);
             }
@@ -647,7 +647,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             overflow: 'hidden'
                         }}>
                             <vturb-smartplayer 
-                                id="vid-69569b62cfe8523273766a53" 
+                                id="vid-6956c53dd883372e563d2c19" 
                                 style={{
                                     display: 'block',
                                     width: '100%',
