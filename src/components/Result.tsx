@@ -30,7 +30,7 @@ export default function Result({ onNavigate }: ResultProps) {
     const [isVideoButtonEnabled, setIsVideoButtonEnabled] = useState(false);
 
     // --- ESTADO PARA OS CHECKMARKS DOS BOTÕES ---
-    const [buttonCheckmarks, setButtonCheckmarks] = useState&lt;{[key: number]: boolean}>({
+    const [buttonCheckmarks, setButtonCheckmarks] = useState<{[key: number]: boolean}>({
         0: false,
         1: false,
         2: false
@@ -123,7 +123,7 @@ export default function Result({ onNavigate }: ResultProps) {
             ga4Tracking.revelationViewed('Por qué te dejó', 1);
         }, 2500);
 
-        const countdownInterval = setInterval(() => setTimeLeft(prev => (prev &lt;= 1 ? 0 : prev - 1)), 1000);
+        const countdownInterval = setInterval(() => setTimeLeft(prev => (prev <= 1 ? 0 : prev - 1)), 1000);
 
         const spotsInterval = setInterval(() => {
             setSpotsLeft(prev => {
@@ -141,7 +141,7 @@ export default function Result({ onNavigate }: ResultProps) {
             setPeopleBuying(prev => {
                 const change = Math.random() > 0.5 ? 1 : -1;
                 let newCount = prev + change;
-                if (newCount &lt; 1) newCount = 1;
+                if (newCount < 1) newCount = 1;
                 if (newCount > 7) newCount = 7;
                 return newCount;
             });
@@ -165,7 +165,7 @@ export default function Result({ onNavigate }: ResultProps) {
 
             delayInterval = setInterval(() => {
                 setVideoButtonDelayLeft(prev => {
-                    if (prev &lt;= 1) {
+                    if (prev <= 1) {
                         clearInterval(delayInterval);
                         setIsVideoButtonEnabled(true);
                         ga4Tracking.videoButtonUnlocked({ unlock_time_seconds: 50, video_name: 'VSL Plan Personalizado' });
@@ -200,24 +200,6 @@ export default function Result({ onNavigate }: ResultProps) {
                 }
             }
         }, 500);
-        return () => clearTimeout(timer);
-    }, [currentPhase]);
-
-    // 
-    // 🎬 NUEVO CÓDIGO AGREGADO: Injeção VTurb - Vídeo Pré-Oferta
-    // 
-    useEffect(() => {
-        if (currentPhase !== 4) return;
-        
-        const timer = setTimeout(() => {
-            if (!document.querySelector('script[src*="69569b62cfe8523273766a53"]')) {
-                const s = document.createElement("script");
-                s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/69569b62cfe8523273766a53/v4/player.js";
-                s.async = true;
-                document.head.appendChild(s);
-            }
-        }, 500);
-        
         return () => clearTimeout(timer);
     }, [currentPhase]);
 
@@ -294,9 +276,9 @@ export default function Result({ onNavigate }: ResultProps) {
     // --- HELPER PARA EMOJI DO DELAY ---
     const getDelayEmoji = (secondsLeft: number) => {
         const progress = (50 - secondsLeft) / 50;
-        if (progress &lt; 0.2) return '😴';
-        if (progress &lt; 0.4) return '⏳';
-        if (progress &lt; 0.7) return '🔥';
+        if (progress < 0.2) return '😴';
+        if (progress < 0.4) return '⏳';
+        if (progress < 0.7) return '🔥';
         return '🚀';
     };
 
@@ -338,8 +320,8 @@ export default function Result({ onNavigate }: ResultProps) {
                             <p>{getLoadingMessage(gender)}</p>
                             <div className="loading-steps-list">
                                 {loadingSteps.map((step, i) => (
-                                    <div key={i} className={`loading-step-item ${i &lt;= loadingStep ? 'active' : ''}`}>
-                                        {i &lt; loadingStep ? '✅' : step.icon} {step.text}
+                                    <div key={i} className={`loading-step-item ${i <= loadingStep ? 'active' : ''}`}>
+                                        {i < loadingStep ? '✅' : step.icon} {step.text}
                                     </div>
                                 ))}
                             </div>
@@ -411,7 +393,7 @@ export default function Result({ onNavigate }: ResultProps) {
                         ) : (
                             <div className="video-delay-indicator">
                                 {!isVideoButtonEnabled ? (
-                                    &lt;>
+                                    <>
                                         <p className="delay-text">
                                             {getDelayEmoji(videoButtonDelayLeft)} Próxima sección en {videoButtonDelayLeft} segundos...
                                         </p>
@@ -651,64 +633,6 @@ export default function Result({ onNavigate }: ResultProps) {
                                 ⚡ Revelar Mi Plan Personalizado
                             </button>
                         )}
-                    </div>
-                )}
-
-                {/* 
-                    🎬 NUEVO CÓDIGO AGREGADO: VÍDEO VTURB PRE-OFERTA
-                     */}
-                {currentPhase >= 4 && (
-                    <div className="pre-offer-video-section fade-in" style={{
-                        marginBottom: 'clamp(32px, 6vw, 48px)',
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(234, 179, 8, 0.1))',
-                        border: '3px solid rgba(16, 185, 129, 0.4)',
-                        borderRadius: '16px',
-                        padding: 'clamp(20px, 5vw, 32px)',
-                        boxShadow: '0 8px 32px rgba(16, 185, 129, 0.3)'
-                    }}>
-                        <div style={{
-                            textAlign: 'center',
-                            marginBottom: 'clamp(20px, 4vw, 24px)'
-                        }}>
-                            <h3 style={{
-                                fontSize: 'clamp(1.25rem, 5vw, 1.75rem)',
-                                color: '#10b981',
-                                fontWeight: '900',
-                                marginBottom: 'clamp(12px, 3vw, 16px)'
-                            }}>
-                                🎥 MENSAJE FINAL ANTES DE REVELAR TU PLAN
-                            </h3>
-                            <p style={{
-                                fontSize: 'clamp(0.95rem, 4vw, 1.1rem)',
-                                color: 'rgba(255,255,255,0.9)',
-                                lineHeight: '1.6'
-                            }}>
-                                Mira este último mensaje importante antes de acceder a tu solución personalizada
-                            </p>
-                        </div>
-                        
-                        <div style={{
-                            position: 'relative',
-                            width: '100%',
-                            maxWidth: '400px',
-                            margin: '0 auto',
-                            aspectRatio: '9 / 16',
-                            background: '#000',
-                            borderRadius: '8px',
-                            overflow: 'hidden'
-                        }}>
-                            <vturb-smartplayer 
-                                id="vid-69569b62cfe8523273766a53" 
-                                style={{
-                                    display: 'block',
-                                    width: '100%',
-                                    height: '100%',
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0
-                                }}
-                            ></vturb-smartplayer>
-                        </div>
                     </div>
                 )}
 
@@ -1280,9 +1204,9 @@ export default function Result({ onNavigate }: ResultProps) {
                     transition: width 1s linear;
                     border-radius: 5px;
                 }
-                    /* 
+                    /* ========================================
    MELHORIAS DE VISUALIZAÇÃO - VENTANA 72H
-    */
+   ======================================== */
 
 /* Texto principal da Ventana 72h - maior e mais legível */
 .ventana-intro {
