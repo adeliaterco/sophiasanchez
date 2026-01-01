@@ -21,22 +21,16 @@ interface ResultProps {
 }
 
 export default function Result({ onNavigate }: ResultProps) {
-    // --- ESTADO UNIFICADO E CONTROLE DE FLUXO ---
     const [currentPhase, setCurrentPhase] = useState(0);
     const [fadeOutPhase, setFadeOutPhase] = useState<number | null>(null);
-
-    // --- ESTADOS PARA O DELAY DO BOTÃO DO VÍDEO ---
     const [videoButtonDelayLeft, setVideoButtonDelayLeft] = useState(20);
     const [isVideoButtonEnabled, setIsVideoButtonEnabled] = useState(false);
-
-    // --- ESTADO PARA OS CHECKMARKS DOS BOTÕES ---
     const [buttonCheckmarks, setButtonCheckmarks] = useState<{[key: number]: boolean}>({
         0: false,
         1: false,
         2: false
     });
 
-    // --- PERSISTÊNCIA DO TIMER NO LOCALSTORAGE ---
     const getInitialTime = () => {
         const savedTimestamp = localStorage.getItem('quiz_timer_start');
         if (savedTimestamp) {
@@ -60,6 +54,7 @@ export default function Result({ onNavigate }: ResultProps) {
     const diagnosticoSectionRef = useRef<HTMLDivElement>(null);
     const videoSectionRef = useRef<HTMLDivElement>(null);
     const ventana72SectionRef = useRef<HTMLDivElement>(null);
+    const preOfferVideoSectionRef = useRef<HTMLDivElement>(null);
     const offerSectionRef = useRef<HTMLDivElement>(null);
 
     const gender = quizData.gender || 'HOMBRE';
@@ -69,7 +64,6 @@ export default function Result({ onNavigate }: ResultProps) {
         { icon: '🧠', text: 'Generando tu diagnóstico personalizado...', duration: 1000 }
     ];
 
-    // --- SISTEMA DE PRESERVAÇÃO DE UTMs ---
     const getUTMs = (): Record<string, string> => {
         try {
             const storedUTMs = localStorage.getItem('quiz_utms');
@@ -98,10 +92,10 @@ export default function Result({ onNavigate }: ResultProps) {
         return url.toString();
     };
 
-    // --- EFEITO PRINCIPAL DE PROGRESSÃO ---
     useEffect(() => {
         ensureUTMs();
         ga4Tracking.resultPageView();
+        window.scrollTo(0, 0);
 
         const progressInterval = setInterval(() => {
             setLoadingProgress(prev => {
@@ -156,7 +150,6 @@ export default function Result({ onNavigate }: ResultProps) {
         };
     }, []);
 
-    // --- EFEITO PARA O DELAY DO BOTÃO DO VÍDEO (FASE 2) ---
     useEffect(() => {
         let delayInterval: NodeJS.Timeout;
         if (currentPhase === 2) {
@@ -181,18 +174,18 @@ export default function Result({ onNavigate }: ResultProps) {
         };
     }, [currentPhase]);
 
-    // Injeção VTurb
     useEffect(() => {
         if (currentPhase !== 2 || !videoSectionRef.current) return;
+        
         const timer = setTimeout(() => {
-            const vslPlaceholder = videoSectionRef.current.querySelector('.vsl-placeholder');
+            const vslPlaceholder = videoSectionRef.current?.querySelector('.vsl-placeholder');
             if (vslPlaceholder) {
                 vslPlaceholder.innerHTML = `
-               <div style="position: relative; width: 100%; max-width: 400px; margin: 0 auto; aspect-ratio: 9 / 16; background: #000; border-radius: 8px; overflow: hidden;">
-                <vturb-smartplayer id="vid-695497a4a1bd76c80af62be3" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
-               </div>
+                    <div style="position: relative; width: 100%; max-width: 400px; margin: 0 auto; aspect-ratio: 9 / 16; background: #000; border-radius: 8px; overflow: hidden;">
+                        <vturb-smartplayer id="vid-695497a4a1bd76c80af62be3" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
+                    </div>
                 `;
-                if (!document.querySelector('script[src*="player.js"]')) {
+                if (!document.querySelector('script[src*="695497a4a1bd76c80af62be3"]')) {
                     const s = document.createElement("script");
                     s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/695497a4a1bd76c80af62be3/v4/player.js";
                     s.async = true;
@@ -200,23 +193,47 @@ export default function Result({ onNavigate }: ResultProps) {
                 }
             }
         }, 500);
+        
         return () => clearTimeout(timer);
     }, [currentPhase]);
 
-    // --- EFEITO PARA SCROLL AUTOMÁTICO ---
+    useEffect(() => {
+        if (currentPhase !== 4 || !preOfferVideoSectionRef.current) return;
+        
+        const timer = setTimeout(() => {
+            if (!document.querySelector('script[src*="69569b62cfe8523273766a53"]')) {
+                const s = document.createElement("script");
+                s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/69569b62cfe8523273766a53/v4/player.js";
+                s.async = true;
+                document.head.appendChild(s);
+            }
+        }, 500);
+        
+        return () => clearTimeout(timer);
+    }, [currentPhase]);
+
     useEffect(() => {
         let targetRef: React.RefObject<HTMLDivElement> | null = null;
+        
         switch (currentPhase) {
-            case 1: targetRef = diagnosticoSectionRef; break;
-            case 2: targetRef = videoSectionRef; break;
-            case 3: targetRef = ventana72SectionRef; break;
-            case 4: targetRef = offerSectionRef; break;
+            case 1:
+                targetRef = diagnosticoSectionRef;
+                break;
+            case 2:
+                targetRef = videoSectionRef;
+                break;
+            case 3:
+                targetRef = ventana72SectionRef;
+                break;
+            case 4:
+                targetRef = preOfferVideoSectionRef;
+                break;
         }
 
         if (targetRef && targetRef.current) {
             setTimeout(() => {
                 targetRef!.current!.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100); 
+            }, 100);
         }
     }, [currentPhase]);
 
@@ -226,7 +243,6 @@ export default function Result({ onNavigate }: ResultProps) {
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
-    // --- HANDLERS DE CLIQUE DOS BOTÕES COM TRANSIÇÃO ---
     const handlePhase1ButtonClick = () => {
         playKeySound();
         setButtonCheckmarks(prev => ({ ...prev, 0: true }));
@@ -273,7 +289,6 @@ export default function Result({ onNavigate }: ResultProps) {
         window.open(appendUTMsToHotmartURL(), '_blank');
     };
 
-    // --- HELPER PARA EMOJI DO DELAY ---
     const getDelayEmoji = (secondsLeft: number) => {
         const progress = (50 - secondsLeft) / 50;
         if (progress < 0.2) return '😴';
@@ -297,7 +312,6 @@ export default function Result({ onNavigate }: ResultProps) {
                 </p>
             </div>
 
-            {/* BARRA DE PROGRESSO UNIFICADA */}
             {currentPhase > 0 && (
                 <div className="progress-bar-container fade-in">
                     {phases.map((label, index) => (
@@ -311,7 +325,6 @@ export default function Result({ onNavigate }: ResultProps) {
 
             <div className="revelations-container">
                 
-                {/* LOADING ACELERADO */}
                 {currentPhase === 0 && (
                     <div className="revelation fade-in loading-box-custom">
                         <div className="loading-inner">
@@ -331,7 +344,6 @@ export default function Result({ onNavigate }: ResultProps) {
                     </div>
                 )}
 
-                {/* FASE 1: DIAGNÓSTICO */}
                 {currentPhase === 1 && (
                     <div 
                         ref={diagnosticoSectionRef} 
@@ -373,7 +385,6 @@ export default function Result({ onNavigate }: ResultProps) {
                     </div>
                 )}
 
-                {/* FASE 2: VÍDEO */}
                 {currentPhase === 2 && (
                     <div 
                         ref={videoSectionRef} 
@@ -421,14 +432,12 @@ export default function Result({ onNavigate }: ResultProps) {
                             </div>
                         )}
 
-                        {/* ✅ DEPOIMENTOS ESTRATÉGICOS - INSERIDO AQUI */}
                         <div className="testimonials-section fade-in" style={{
                             marginTop: 'clamp(32px, 6vw, 48px)',
                             display: 'flex',
                             flexDirection: 'column',
                             gap: 'clamp(20px, 4vw, 24px)'
                         }}>
-                            {/* DEPOIMENTO 1 - HOMEM (PRIORIDADE) */}
                             <div className="testimonial-card" style={{
                                 background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(74, 222, 128, 0.1))',
                                 border: '2px solid rgba(16, 185, 129, 0.4)',
@@ -485,32 +494,11 @@ export default function Result({ onNavigate }: ResultProps) {
                                         margin: 0,
                                         fontStyle: 'italic'
                                     }}>
-                                        "Ella estaba con otro tipo. Yo estaba destruido. 
-                                        El <strong style={{ color: '#10b981' }}>Módulo 4 (Protocolo de Emergencia)</strong> 
-                                        me salvó de cometer errores fatales. 
-                                        Sophia sabe exactamente cómo funciona la mente femenina."
+                                        "Ella estaba con otro tipo. Yo estaba destruido. El Módulo 4 me salvó de cometer errores fatales."
                                     </p>
-                                    <div style={{
-                                        marginTop: 'clamp(12px, 3vw, 16px)',
-                                        padding: 'clamp(8px, 2vw, 12px)',
-                                        background: 'rgba(0,0,0,0.3)',
-                                        borderRadius: '8px',
-                                        borderLeft: '4px solid #10b981'
-                                    }}>
-                                        <p style={{
-                                            fontSize: 'clamp(0.8rem, 3vw, 0.95rem)',
-                                            color: 'rgba(255,255,255,0.8)',
-                                            margin: 0,
-                                            lineHeight: '1.5'
-                                        }}>
-                                            <strong style={{ color: '#10b981' }}>✓ Resultado:</strong> Reconquista en 19 días | 
-                                            <strong style={{ color: '#10b981' }}> ✓ Situación:</strong> Ella con otra persona
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
 
-                            {/* DEPOIMENTO 2 - HOMEM (CONTATO ZERO) */}
                             <div className="testimonial-card" style={{
                                 background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(250, 204, 21, 0.1))',
                                 border: '2px solid rgba(234, 179, 8, 0.4)',
@@ -567,36 +555,14 @@ export default function Result({ onNavigate }: ResultProps) {
                                         margin: 0,
                                         fontStyle: 'italic'
                                     }}>
-                                        "Llevábamos 5 meses sin hablar. Ella me bloqueó de todo. 
-                                        Pensé que era imposible. Apliqué el <strong style={{ color: '#eab308' }}>Protocolo de Contacto Zero Inverso</strong> 
-                                        del Módulo 1, y en 13 días ella me desbloqueó y me escribió primero. 
-                                        Hoy llevamos 3 meses juntos de nuevo, <strong style={{ color: '#facc15' }}>y la relación es 10 veces mejor</strong>. 
-                                        Este método funciona incluso en casos extremos como el mío."
+                                        "Llevábamos 5 meses sin hablar. En 13 días ella me desbloqueó y me escribió primero."
                                     </p>
-                                    <div style={{
-                                        marginTop: 'clamp(12px, 3vw, 16px)',
-                                        padding: 'clamp(8px, 2vw, 12px)',
-                                        background: 'rgba(0,0,0,0.3)',
-                                        borderRadius: '8px',
-                                        borderLeft: '4px solid #eab308'
-                                    }}>
-                                        <p style={{
-                                            fontSize: 'clamp(0.8rem, 3vw, 0.95rem)',
-                                            color: 'rgba(255,255,255,0.8)',
-                                            margin: 0,
-                                            lineHeight: '1.5'
-                                        }}>
-                                            <strong style={{ color: '#eab308' }}>✓ Resultado:</strong> Reconquista en 13 días | 
-                                            <strong style={{ color: '#eab308' }}> ✓ Situación:</strong> Bloqueado 5 meses
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* FASE 3: VENTANA 72H */}
                 {currentPhase === 3 && (
                     <div 
                         ref={ventana72SectionRef} 
@@ -636,13 +602,70 @@ export default function Result({ onNavigate }: ResultProps) {
                     </div>
                 )}
 
-                {/* ✅ FASE 4: OFERTA (OTIMIZADA) */}
+                {currentPhase === 4 && (
+                    <div 
+                        ref={preOfferVideoSectionRef}
+                        className="pre-offer-video-section fade-in"
+                        style={{
+                            marginBottom: 'clamp(32px, 6vw, 48px)',
+                            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(234, 179, 8, 0.1))',
+                            border: '3px solid rgba(16, 185, 129, 0.4)',
+                            borderRadius: '16px',
+                            padding: 'clamp(20px, 5vw, 32px)',
+                            boxShadow: '0 8px 32px rgba(16, 185, 129, 0.3)'
+                        }}
+                    >
+                        <div style={{
+                            textAlign: 'center',
+                            marginBottom: 'clamp(20px, 4vw, 24px)'
+                        }}>
+                            <h3 style={{
+                                fontSize: 'clamp(1.25rem, 5vw, 1.75rem)',
+                                color: '#10b981',
+                                fontWeight: '900',
+                                marginBottom: 'clamp(12px, 3vw, 16px)'
+                            }}>
+                                🎥 MENSAJE FINAL ANTES DE REVELAR TU PLAN
+                            </h3>
+                            <p style={{
+                                fontSize: 'clamp(0.95rem, 4vw, 1.1rem)',
+                                color: 'rgba(255,255,255,0.9)',
+                                lineHeight: '1.6'
+                            }}>
+                                Mira este último mensaje importante antes de acceder a tu solución personalizada
+                            </p>
+                        </div>
+                        
+                        <div style={{
+                            position: 'relative',
+                            width: '100%',
+                            maxWidth: '400px',
+                            margin: '0 auto',
+                            aspectRatio: '9 / 16',
+                            background: '#000',
+                            borderRadius: '8px',
+                            overflow: 'hidden'
+                        }}>
+                            <vturb-smartplayer 
+                                id="vid-69569b62cfe8523273766a53" 
+                                style={{
+                                    display: 'block',
+                                    width: '100%',
+                                    height: '100%',
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0
+                                }}
+                            ></vturb-smartplayer>
+                        </div>
+                    </div>
+                )}
+
                 {currentPhase >= 4 && (
                     <div ref={offerSectionRef} className="revelation fade-in offer-section-custom">
                         <div className="offer-badge">OFERTA EXCLUSIVA</div>
                         <h2 className="offer-title-main">{getOfferTitle(gender)}</h2>
 
-                        {/* ✅ NOVO: STACK DE VALOR VISUAL */}
                         <div className="value-stack-box" style={{
                             background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(234, 179, 8, 0.1))',
                             border: '3px solid rgba(16, 185, 129, 0.4)',
@@ -792,7 +815,6 @@ export default function Result({ onNavigate }: ResultProps) {
                             </div>
                         </div>
 
-                        {/* BOX DE DADOS DO QUIZ NA OFERTA (MANTIDO) */}
                         <div className="quiz-summary-box" style={{
                             background: 'rgba(234, 179, 8, 0.1)',
                             border: '2px solid rgba(234, 179, 8, 0.3)',
@@ -823,7 +845,6 @@ export default function Result({ onNavigate }: ResultProps) {
                             </ul>
                         </div>
 
-                        {/* FEATURES COM CHECKMARKS (MANTIDO) */}
                         <div className="offer-features" style={{
                             display: 'flex',
                             flexDirection: 'column',
@@ -855,14 +876,12 @@ export default function Result({ onNavigate }: ResultProps) {
                             ))}
                         </div>
 
-                        {/* PREÇO E DESCONTO (MANTIDO) */}
                         <div className="price-box">
                             <p className="price-old">Precio regular: $123</p>
                             <p className="price-new">$17.00</p>
                             <p className="price-discount">💰 86% de descuento HOY</p>
                         </div>
 
-                        {/* ✅ ALTERADO: CTA OTIMIZADO COM PREÇO E URGÊNCIA */}
                         <button 
                             className="cta-button btn-green btn-size-4 btn-animation-glowshake" 
                             onClick={handleCTAClick}
@@ -885,7 +904,6 @@ export default function Result({ onNavigate }: ResultProps) {
                             </span>
                         </button>
 
-                        {/* ✅ NOVO: GARANTIA DESTACADA */}
                         <div className="guarantee-section" style={{
                             background: 'linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(16, 185, 129, 0.1))',
                             border: '3px solid rgba(74, 222, 128, 0.4)',
@@ -927,20 +945,17 @@ export default function Result({ onNavigate }: ResultProps) {
                             </p>
                         </div>
 
-                        {/* PROVA SOCIAL REAL (MANTIDO) */}
                         <div className="real-proof-box">
                             <p>⭐ <strong>4.8/5 estrellas</strong> (2.341 avaliações verificadas)</p>
                             <p>📱 Última compra hace 4 minutos</p>
                         </div>
 
-                        {/* TRUST ICONS (MANTIDO) */}
                         <div className="trust-icons">
                             <span>🔒 Compra segura</span>
                             <span>✅ Acceso instantáneo</span>
                             <span>↩️ 30 días de garantía</span>
                         </div>
 
-                        {/* GRID DE URGÊNCIA OTIMIZADO (MANTIDO) */}
                         <div className="final-urgency-grid-optimized">
                             <div className="urgency-item-compact">
                                 <span style={{ fontSize: 'clamp(0.75rem, 3vw, 0.875rem)', opacity: 0.8 }}>Tiempo:</span>
@@ -952,7 +967,6 @@ export default function Result({ onNavigate }: ResultProps) {
                             </div>
                         </div>
 
-                        {/* CONTADOR DE PESSOAS COMPRANDO (MANTIDO) */}
                         <p className="people-buying-counter" style={{
                             textAlign: 'center',
                             color: 'rgb(74, 222, 128)',
@@ -966,7 +980,6 @@ export default function Result({ onNavigate }: ResultProps) {
                             ✨ {peopleBuying} comprando ahora
                         </p>
 
-                        {/* PROVA SOCIAL +9.247 (MANTIDO) */}
                         <p className="social-proof-count" style={{
                             textAlign: 'center',
                             color: 'rgb(74, 222, 128)',
@@ -979,7 +992,6 @@ export default function Result({ onNavigate }: ResultProps) {
                             ✓ +9.247 reconquistas exitosas
                         </p>
 
-                        {/* EXCLUSIVIDADE (MANTIDO) */}
                         <p className="guarantee-text" style={{
                             textAlign: 'center',
                             fontSize: 'clamp(0.75rem, 3vw, 0.875rem)',
@@ -993,7 +1005,6 @@ export default function Result({ onNavigate }: ResultProps) {
                 )}
             </div>
 
-            {/* STICKY FOOTER (MANTIDO) */}
             {currentPhase >= 4 && (
                 <div className="sticky-footer-urgency fade-in-up">
                     ⏰ {formatTime(timeLeft)} • {spotsLeft} spots restantes
@@ -1002,311 +1013,109 @@ export default function Result({ onNavigate }: ResultProps) {
 
             <style jsx>{`
                 .result-container { padding-bottom: 100px; }
-                .diagnostic-pulse { animation: diagnosticPulse 1s ease-in-out 2; }
-                @keyframes diagnosticPulse {
-                    0%, 100% { transform: scale(1); box-shadow: 0 8px 32px rgba(234, 179, 8, 0.3); }
-                    50% { transform: scale(1.02); box-shadow: 0 12px 48px rgba(234, 179, 8, 0.5); }
-                }
-                .loading-box-custom { background: rgba(234, 179, 8, 0.1); border: 2px solid #eab308; border-radius: 16px; padding: 40px; text-align: center; }
+                .result-header { text-align: center; padding: 20px; background: rgba(0,0,0,0.5); border-radius: 12px; margin-bottom: 20px; }
+                .result-title { font-size: clamp(1.5rem, 6vw, 2.5rem); color: white; margin: 0 0 15px 0; font-weight: 900; }
+                .urgency-bar { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(234, 179, 8, 0.2); padding: 12px 20px; border-radius: 8px; border: 2px solid rgba(234, 179, 8, 0.5); }
+                .urgency-icon { font-size: 1.5rem; }
+                .urgency-text { color: #facc15; font-weight: bold; font-size: clamp(0.9rem, 3.5vw, 1.1rem); }
+                .progress-bar-container { display: flex; justify-content: space-between; margin: 20px auto; max-width: 800px; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 12px; position: sticky; top: 0; z-index: 999; backdrop-filter: blur(5px); gap: 10px; }
+                .progress-step { flex: 1; display: flex; flex-direction: column; align-items: center; color: rgba(255,255,255,0.5); font-size: 0.8rem; }
+                .step-circle { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; margin-bottom: 5px; font-weight: bold; }
+                .progress-step.active .step-circle { background: #eab308; color: black; }
+                .progress-step.completed .step-circle { background: #4ade80; color: white; }
+                .step-label { font-size: 0.7rem; text-align: center; }
+                .revelations-container { max-width: 800px; margin: 0 auto; }
+                .revelation { background: rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; padding: clamp(20px, 5vw, 40px); margin-bottom: 30px; }
+                .revelation-header { text-align: center; margin-bottom: 30px; }
+                .revelation-icon { font-size: 3rem; display: block; margin-bottom: 15px; }
+                .revelation h2 { font-size: clamp(1.5rem, 6vw, 2rem); color: white; margin: 0; font-weight: 900; }
+                .revelation-text { font-size: clamp(1rem, 4vw, 1.2rem); line-height: 1.8; color: rgba(255,255,255,0.95); }
                 .quiz-summary-box { background: rgba(234, 179, 8, 0.1); border: 2px solid rgba(234, 179, 8, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 30px; }
-                .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left; }
-                .summary-grid span { color: #4ade80; }
+                .summary-title { color: rgb(253, 224, 71); font-weight: bold; margin-bottom: 15px; }
+                .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+                .summary-grid div { font-size: clamp(0.85rem, 3.5vw, 1rem); color: white; }
+                .summary-grid span { color: #4ade80; font-weight: bold; }
+                .emotional-validation { background: rgba(74, 222, 128, 0.1); border: 2px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 20px; margin-top: 20px; color: #4ade80; }
+                .loading-box-custom { background: rgba(234, 179, 8, 0.1); border: 2px solid #eab308; border-radius: 16px; padding: 40px; text-align: center; }
+                .loading-inner { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+                .spin-brain { font-size: 4rem; animation: spin 2s linear infinite; }
+                .loading-steps-list { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+                .loading-step-item { font-size: clamp(0.9rem, 3.5vw, 1.1rem); color: rgba(255,255,255,0.8); }
+                .loading-step-item.active { color: #4ade80; font-weight: bold; }
+                .progress-outer { width: 100%; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; overflow: hidden; }
+                .progress-inner { height: 100%; background: linear-gradient(90deg, #eab308, #10b981); width: 0%; transition: width 0.1s linear; }
+                .progress-labels { display: flex; justify-content: space-between; font-size: clamp(0.8rem, 3vw, 0.95rem); color: rgba(255,255,255,0.7); }
+                .vsl-container { margin: 30px 0; }
+                .vsl-placeholder { width: 100%; max-width: 400px; margin: 0 auto; }
+                .video-delay-indicator { background: rgba(0,0,0,0.4); border: 2px solid #eab308; border-radius: 12px; padding: 20px; margin-top: 20px; text-align: center; color: white; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+                .delay-text { font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; }
+                .delay-progress-bar-container { width: 100%; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; overflow: hidden; }
+                .delay-progress-bar { height: 100%; background: #eab308; width: 0%; transition: width 1s linear; border-radius: 5px; }
+                .testimonials-section { margin-top: clamp(32px, 6vw, 48px); display: flex; flex-direction: column; gap: clamp(20px, 4vw, 24px); }
+                .testimonial-card { border-radius: 16px; padding: clamp(20px, 5vw, 28px); display: flex; gap: clamp(16px, 4vw, 20px); align-items: flex-start; }
+                .ventana-box-custom { background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(234, 179, 8, 0.1)); border: 3px solid rgba(249, 115, 22, 0.5); border-radius: 20px; padding: clamp(24px, 6vw, 40px); box-shadow: 0 12px 48px rgba(249, 115, 22, 0.3); }
+                .ventana-header-custom { text-align: center; margin-bottom: clamp(24px, 5vw, 32px); }
+                .ventana-header-custom span { font-size: clamp(2.5rem, 8vw, 3.5rem); display: block; margin-bottom: clamp(12px, 3vw, 16px); }
+                .ventana-header-custom h2 { font-size: clamp(1.5rem, 6vw, 2rem); color: #f97316; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+                .ventana-intro { font-size: clamp(1.1rem, 4.5vw, 1.3rem); line-height: 1.8; color: white; margin-bottom: clamp(24px, 5vw, 32px); }
+                .fases-list { display: flex; flex-direction: column; gap: clamp(24px, 5vw, 32px); margin: clamp(24px, 5vw, 32px) 0; }
+                .fase-item-custom { background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(249, 115, 22, 0.1)); border: 2px solid rgba(234, 179, 8, 0.4); border-radius: 16px; padding: clamp(20px, 5vw, 28px); box-shadow: 0 8px 24px rgba(234, 179, 8, 0.2); }
+                .fase-item-custom strong { display: block; font-size: clamp(1.2rem, 5vw, 1.5rem); color: #facc15; margin-bottom: clamp(12px, 3vw, 16px); font-weight: 900; letter-spacing: 0.5px; }
+                .fase-item-custom p { font-size: clamp(1rem, 4vw, 1.2rem); line-height: 1.7; color: rgba(255, 255, 255, 0.95); margin: 0; }
+                .ventana-img { width: 100%; max-width: 600px; border-radius: 16px; margin: clamp(24px, 5vw, 32px) auto; display: block; box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4); border: 3px solid rgba(249, 115, 22, 0.3); }
+                .offer-section-custom { background: rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; padding: clamp(20px, 5vw, 40px); margin-bottom: 30px; }
+                .offer-badge { display: inline-block; background: #f97316; color: black; padding: 8px 16px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; font-size: clamp(0.8rem, 3vw, 0.95rem); }
+                .offer-title-main { font-size: clamp(1.5rem, 6vw, 2rem); color: white; margin: 0 0 30px 0; font-weight: 900; text-align: center; }
+                .value-stack-box { }
+                .value-item { }
                 .price-box { text-align: center; margin-bottom: 25px; }
-                .price-old { text-decoration: line-through; opacity: 0.6; margin: 0; }
-                .price-new { font-size: 3rem; color: #facc15; font-weight: 900; margin: 5px 0; }
-                .price-discount { color: #4ade80; font-weight: bold; }
-                
-                /* CTA BUTTONS STYLES */
-                .cta-button { 
-                    width: 100%; 
-                    color: black; 
-                    font-weight: 900; 
-                    padding: 20px; 
-                    border-radius: 12px; 
-                    border: 3px solid white; 
-                    cursor: pointer; 
-                    margin-top: 20px;
-                    transition: all 0.3s ease;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 10px;
-                    font-size: clamp(1rem, 4vw, 1.5rem);
-                }
-                .cta-button:disabled {
-                    opacity: 0.6;
-                    cursor: not-allowed;
-                    filter: grayscale(50%);
-                }
-                .cta-button:hover:not(:disabled) {
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-                }
-
-                /* Button Colors */
+                .price-old { text-decoration: line-through; opacity: 0.6; margin: 0; font-size: clamp(0.9rem, 3.5vw, 1.1rem); }
+                .price-new { font-size: clamp(2.5rem, 8vw, 3.5rem); color: #facc15; font-weight: 900; margin: 5px 0; }
+                .price-discount { color: #4ade80; font-weight: bold; font-size: clamp(0.9rem, 3.5vw, 1.1rem); }
+                .offer-features { display: flex; flex-direction: column; gap: clamp(12px, 3vw, 16px); margin-bottom: clamp(24px, 5vw, 32px); }
+                .feature { display: flex; align-items: flex-start; gap: clamp(10px, 3vw, 12px); padding: clamp(8px, 2vw, 12px) 0; }
+                .check-icon { min-width: clamp(20px, 5vw, 24px); width: clamp(20px, 5vw, 24px); height: clamp(20px, 5vw, 24px); margin-top: 2px; color: #4ade80; }
+                .cta-button { width: 100%; color: black; font-weight: 900; padding: 20px; border-radius: 12px; border: 3px solid white; cursor: pointer; margin-top: 20px; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-size: clamp(1rem, 4vw, 1.5rem); }
+                .cta-button:disabled { opacity: 0.6; cursor: not-allowed; filter: grayscale(50%); }
+                .cta-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
                 .btn-green { background: #10b981; }
                 .btn-green:hover:not(:disabled) { background: #059669; }
                 .btn-yellow { background: #eab308; }
                 .btn-yellow:hover:not(:disabled) { background: #ca8a04; }
                 .btn-orange { background: #f97316; }
                 .btn-orange:hover:not(:disabled) { background: #ea580c; }
-
-                /* Button Sizes */
                 .btn-size-1 { font-size: 1rem; }
                 .btn-size-2 { font-size: 1.125rem; }
                 .btn-size-3 { font-size: 1.25rem; }
                 .btn-size-4 { font-size: 1.5rem; }
-
-                /* Button Animations */
                 .btn-animation-fadein { animation: fadeIn 0.6s ease-in-out; }
                 .btn-animation-bounce { animation: bounce 1s infinite; }
-                @keyframes bounce {
-                    0%, 100% { transform: translateY(0); }
-                    50% { transform: translateY(-5px); }
-                }
                 .btn-animation-pulse { animation: pulse 1.5s infinite; }
-                @keyframes pulse {
-                    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
-                    70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(249, 115, 22, 0); }
-                    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
-                }
                 .btn-animation-glowshake { animation: glowshake 2s infinite; }
-                @keyframes glowshake {
-                    0%, 100% { transform: translateX(0) scale(1); box-shadow: 0 0 15px rgba(16, 185, 129, 0.8); }
-                    25% { transform: translateX(-2px) scale(1.01); box-shadow: 0 0 20px rgba(16, 185, 129, 1); }
-                    50% { transform: translateX(2px) scale(1); box-shadow: 0 0 15px rgba(16, 185, 129, 0.8); }
-                    75% { transform: translateX(-2px) scale(1.01); box-shadow: 0 0 20px rgba(16, 185, 129, 1); }
-                }
-
-                /* CHECKMARK STYLES */
-                .checkmark-container {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    margin-top: 20px;
-                    min-height: 80px;
-                }
-                .checkmark-glow {
-                    font-size: 4rem;
-                    animation: checkmarkShine 1s ease-in-out;
-                }
-                @keyframes checkmarkShine {
-                    0% { 
-                        opacity: 0;
-                        transform: scale(0.5);
-                        filter: brightness(1);
-                    }
-                    50% { 
-                        opacity: 1;
-                        transform: scale(1.1);
-                        filter: brightness(1.8);
-                    }
-                    100% { 
-                        opacity: 1;
-                        transform: scale(1);
-                        filter: brightness(1);
-                    }
-                }
-
-                /* FADE OUT ANIMATION */
-                .fade-out {
-                    animation: fadeOutAnimation 0.3s ease-out forwards;
-                }
-                @keyframes fadeOutAnimation {
-                    from { opacity: 1; transform: translateY(0); }
-                    to { opacity: 0; transform: translateY(-20px); }
-                }
-
+                .checkmark-container { display: flex; justify-content: center; align-items: center; margin-top: 20px; min-height: 80px; }
+                .checkmark-glow { font-size: 4rem; animation: checkmarkShine 1s ease-in-out; }
+                .guarantee-section { }
                 .real-proof-box { background: rgba(74, 222, 128, 0.1); border: 2px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 15px; text-align: center; color: #4ade80; margin: 20px 0; }
+                .real-proof-box p { margin: 5px 0; font-size: clamp(0.85rem, 3.5vw, 1rem); }
                 .trust-icons { display: flex; justify-content: center; gap: 15px; color: #4ade80; font-size: 0.85rem; margin-bottom: 20px; flex-wrap: wrap; }
-                
-                /* GRID DE URGÊNCIA OTIMIZADO */
-                .final-urgency-grid-optimized { 
-                    display: grid; 
-                    grid-template-columns: 1fr 1fr; 
-                    gap: clamp(8px, 2vw, 12px);
-                    margin: clamp(16px, 4vw, 20px) 0;
-                }
-                .urgency-item-compact { 
-                    background: rgba(0,0,0,0.3); 
-                    padding: clamp(10px, 3vw, 12px); 
-                    border-radius: 8px; 
-                    text-align: center;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 4px;
-                }
-                
+                .final-urgency-grid-optimized { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 2vw, 12px); margin: clamp(16px, 4vw, 20px) 0; }
+                .urgency-item-compact { background: rgba(0,0,0,0.3); padding: clamp(10px, 3vw, 12px); border-radius: 8px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
+                .people-buying-counter { text-align: center; color: rgb(74, 222, 128); font-size: clamp(0.75rem, 3vw, 0.875rem); margin-top: clamp(12px, 3vw, 16px); margin-bottom: clamp(8px, 2vw, 12px); line-height: 1.5; font-weight: 500; opacity: 0.85; }
+                .social-proof-count { text-align: center; color: rgb(74, 222, 128); font-size: clamp(0.75rem, 3vw, 0.875rem); margin-bottom: clamp(8px, 2vw, 12px); line-height: 1.5; font-weight: 500; opacity: 0.85; }
+                .guarantee-text { text-align: center; font-size: clamp(0.75rem, 3vw, 0.875rem); line-height: 1.6; color: rgba(255, 255, 255, 0.7); padding: 0 8px; }
                 .sticky-footer-urgency { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.95); padding: 15px; color: #fde047; text-align: center; z-index: 1000; border-top: 2px solid #eab308; font-weight: bold; }
-                .progress-bar-container { display: flex; justify-content: space-between; margin: 20px auto; max-width: 800px; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 12px; position: sticky; top: 0; z-index: 999; backdrop-filter: blur(5px); }
-                .progress-step { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; color: rgba(255,255,255,0.5); font-size: 0.8rem; }
-                .step-circle { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; margin-bottom: 5px; }
-                .progress-step.active .step-circle { background: #eab308; color: black; }
-                .progress-step.completed .step-circle { background: #4ade80; color: white; }
-                .ventana-img { width: 100%; max-width: 600px; border-radius: 12px; margin: 20px auto; display: block; }
-                .emotional-validation { background: rgba(74, 222, 128, 0.1); border: 2px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 20px; margin-top: 20px; color: #4ade80; }
-
-                @keyframes spin {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                }
-                @keyframes loadingDots {
-                    0%, 20% { opacity: 0; }
-                    50% { opacity: 1; }
-                    100% { opacity: 0; }
-                }
-
+                .pre-offer-video-section { }
+                @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
+                @keyframes fadeInUp { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); } 70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(249, 115, 22, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); } }
+                @keyframes glowshake { 0%, 100% { transform: translateX(0) scale(1); box-shadow: 0 0 15px rgba(16, 185, 129, 0.8); } 25% { transform: translateX(-2px) scale(1.01); box-shadow: 0 0 20px rgba(16, 185, 129, 1); } 50% { transform: translateX(2px) scale(1); box-shadow: 0 0 15px rgba(16, 185, 129, 0.8); } 75% { transform: translateX(-2px) scale(1.01); box-shadow: 0 0 20px rgba(16, 185, 129, 1); } }
+                @keyframes checkmarkShine { 0% { opacity: 0; transform: scale(0.5); filter: brightness(1); } 50% { opacity: 1; transform: scale(1.1); filter: brightness(1.8); } 100% { opacity: 1; transform: scale(1); filter: brightness(1); } }
                 .fade-in { animation: fadeIn 0.6s ease-in-out; }
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(20px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
+                .fade-out { animation: fadeOut 0.3s ease-out forwards; }
                 .fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
-                @keyframes fadeInUp {
-                    from { opacity: 0; transform: translateY(100%); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-
-                /* STYLES PARA O DELAY DO BOTÃO DO VÍDEO */
-                .video-delay-indicator {
-                    background: rgba(0,0,0,0.4);
-                    border: 2px solid #eab308;
-                    border-radius: 12px;
-                    padding: 20px;
-                    margin-top: 20px;
-                    text-align: center;
-                    color: white;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 15px;
-                }
-                .delay-text {
-                    font-size: 1.1rem;
-                    font-weight: bold;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 10px;
-                }
-                .delay-progress-bar-container {
-                    width: 100%;
-                    height: 10px;
-                    background: rgba(255,255,255,0.2);
-                    border-radius: 5px;
-                    overflow: hidden;
-                }
-                .delay-progress-bar {
-                    height: 100%;
-                    background: #eab308;
-                    width: 0%;
-                    transition: width 1s linear;
-                    border-radius: 5px;
-                }
-                    /* ========================================
-   MELHORIAS DE VISUALIZAÇÃO - VENTANA 72H
-   ======================================== */
-
-/* Texto principal da Ventana 72h - maior e mais legível */
-.ventana-intro {
-    font-size: clamp(1.1rem, 4.5vw, 1.3rem) !important;
-    line-height: 1.8 !important;
-    color: white !important;
-    margin-bottom: clamp(24px, 5vw, 32px) !important;
-}
-
-/* Container das fases - mais espaçamento */
-.fases-list {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(24px, 5vw, 32px) !important;
-    margin: clamp(24px, 5vw, 32px) 0 !important;
-}
-
-/* Cada fase individual - card visual */
-.fase-item-custom {
-    background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(249, 115, 22, 0.1)) !important;
-    border: 2px solid rgba(234, 179, 8, 0.4) !important;
-    border-radius: 16px !important;
-    padding: clamp(20px, 5vw, 28px) !important;
-    box-shadow: 0 8px 24px rgba(234, 179, 8, 0.2) !important;
-}
-
-/* Título de cada fase - destaque */
-.fase-item-custom strong {
-    display: block !important;
-    font-size: clamp(1.2rem, 5vw, 1.5rem) !important;
-    color: #facc15 !important;
-    margin-bottom: clamp(12px, 3vw, 16px) !important;
-    font-weight: 900 !important;
-    letter-spacing: 0.5px !important;
-}
-
-/* Texto de cada fase - maior e espaçado */
-.fase-item-custom p {
-    font-size: clamp(1rem, 4vw, 1.2rem) !important;
-    line-height: 1.7 !important;
-    color: rgba(255, 255, 255, 0.95) !important;
-    margin: 0 !important;
-}
-
-/* Container da Ventana 72h - destaque visual */
-.ventana-box-custom {
-    background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(234, 179, 8, 0.1)) !important;
-    border: 3px solid rgba(249, 115, 22, 0.5) !important;
-    border-radius: 20px !important;
-    padding: clamp(24px, 6vw, 40px) !important;
-    box-shadow: 0 12px 48px rgba(249, 115, 22, 0.3) !important;
-}
-
-/* Header da Ventana - mais impactante */
-.ventana-header-custom {
-    text-align: center !important;
-    margin-bottom: clamp(24px, 5vw, 32px) !important;
-}
-
-.ventana-header-custom span {
-    font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
-    display: block !important;
-    margin-bottom: clamp(12px, 3vw, 16px) !important;
-}
-
-.ventana-header-custom h2 {
-    font-size: clamp(1.5rem, 6vw, 2rem) !important;
-    color: #f97316 !important;
-    font-weight: 900 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-}
-
-/* Imagem da Ventana - mais destaque */
-.ventana-img {
-    width: 100% !important;
-    max-width: 600px !important;
-    border-radius: 16px !important;
-    margin: clamp(24px, 5vw, 32px) auto !important;
-    display: block !important;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4) !important;
-    border: 3px solid rgba(249, 115, 22, 0.3) !important;
-}
-
-/* Separadores visuais (se houver "—" no texto) */
-.ventana-intro strong,
-.fase-item-custom strong {
-    color: #facc15 !important;
-}
-
-/* Melhorar legibilidade em mobile */
-@media (max-width: 768px) {
-    .ventana-box-custom {
-        padding: clamp(20px, 5vw, 24px) !important;
-    }
-    
-    .fase-item-custom {
-        padding: clamp(16px, 4vw, 20px) !important;
-    }
-}
             `}</style>
         </div>
     );
