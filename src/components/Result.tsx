@@ -181,7 +181,7 @@ export default function Result({ onNavigate }: ResultProps) {
         };
     }, [currentPhase]);
 
-    // Injeção VTurb - Vídeo VSL da Fase 2 (existente)
+    // Injeção VTurb
     useEffect(() => {
         if (currentPhase !== 2 || !videoSectionRef.current) return;
         const timer = setTimeout(() => {
@@ -192,7 +192,7 @@ export default function Result({ onNavigate }: ResultProps) {
                 <vturb-smartplayer id="vid-695497a4a1bd76c80af62be3" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
                </div>
                 `;
-                if (!document.querySelector('script[src*="695497a4a1bd76c80af62be3"]')) { // Corrigido para o ID correto do script
+                if (!document.querySelector('script[src*="player.js"]')) {
                     const s = document.createElement("script");
                     s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/695497a4a1bd76c80af62be3/v4/player.js";
                     s.async = true;
@@ -203,23 +203,6 @@ export default function Result({ onNavigate }: ResultProps) {
         return () => clearTimeout(timer);
     }, [currentPhase]);
 
-    // 🎬 NOVO CÓDIGO ADICIONADO: Injeção VTurb - Vídeo Pré-Oferta da Fase 4
-    useEffect(() => {
-        if (currentPhase !== 4) return;
-        
-        const timer = setTimeout(() => {
-            // Verifica se o script já foi adicionado para evitar duplicação
-            if (!document.querySelector('script[src*="69569b62cfe8523273766a53"]')) {
-                const s = document.createElement("script");
-                s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/69569b62cfe8523273766a53/v4/player.js";
-                s.async = true;
-                document.head.appendChild(s);
-            }
-        }, 500);
-        
-        return () => clearTimeout(timer);
-    }, [currentPhase]);
-
     // --- EFEITO PARA SCROLL AUTOMÁTICO ---
     useEffect(() => {
         let targetRef: React.RefObject<HTMLDivElement> | null = null;
@@ -227,8 +210,7 @@ export default function Result({ onNavigate }: ResultProps) {
             case 1: targetRef = diagnosticoSectionRef; break;
             case 2: targetRef = videoSectionRef; break;
             case 3: targetRef = ventana72SectionRef; break;
-            // Quando a Fase 4 é ativada, rola para a seção da oferta (que agora inclui o novo vídeo)
-            case 4: targetRef = offerSectionRef; break; 
+            case 4: targetRef = offerSectionRef; break;
         }
 
         if (targetRef && targetRef.current) {
@@ -651,64 +633,6 @@ export default function Result({ onNavigate }: ResultProps) {
                                 ⚡ Revelar Mi Plan Personalizado
                             </button>
                         )}
-                    </div>
-                )}
-
-                {/* 
-                    🎬 NOVO CÓDIGO ADICIONADO: VÍDEO VTURB PRE-OFERTA (Fase 4)
-                */}
-                {currentPhase >= 4 && (
-                    <div className="pre-offer-video-section fade-in" style={{
-                        marginBottom: 'clamp(32px, 6vw, 48px)',
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(234, 179, 8, 0.1))',
-                        border: '3px solid rgba(16, 185, 129, 0.4)',
-                        borderRadius: '16px',
-                        padding: 'clamp(20px, 5vw, 32px)',
-                        boxShadow: '0 8px 32px rgba(16, 185, 129, 0.3)'
-                    }}>
-                        <div style={{
-                            textAlign: 'center',
-                            marginBottom: 'clamp(20px, 4vw, 24px)'
-                        }}>
-                            <h3 style={{
-                                fontSize: 'clamp(1.25rem, 5vw, 1.75rem)',
-                                color: '#10b981',
-                                fontWeight: '900',
-                                marginBottom: 'clamp(12px, 3vw, 16px)'
-                            }}>
-                                🎥 MENSAJE FINAL ANTES DE REVELAR TU PLAN
-                            </h3>
-                            <p style={{
-                                fontSize: 'clamp(0.95rem, 4vw, 1.1rem)',
-                                color: 'rgba(255,255,255,0.9)',
-                                lineHeight: '1.6'
-                            }}>
-                                Mira este último mensaje importante antes de acceder a tu solución personalizada
-                            </p>
-                        </div>
-                        
-                        <div style={{
-                            position: 'relative',
-                            width: '100%',
-                            maxWidth: '400px',
-                            margin: '0 auto',
-                            aspectRatio: '9 / 16',
-                            background: '#000',
-                            borderRadius: '8px',
-                            overflow: 'hidden'
-                        }}>
-                            <vturb-smartplayer 
-                                id="vid-69569b62cfe8523273766a53" 
-                                style={{
-                                    display: 'block',
-                                    width: '100%',
-                                    height: '100%',
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0
-                                }}
-                            ></vturb-smartplayer>
-                        </div>
                     </div>
                 )}
 
@@ -1280,109 +1204,109 @@ export default function Result({ onNavigate }: ResultProps) {
                     transition: width 1s linear;
                     border-radius: 5px;
                 }
-                /* 
-                   MELHORIAS DE VISUALIZAÇÃO - VENTANA 72H
-                    */
+                    /* ========================================
+   MELHORIAS DE VISUALIZAÇÃO - VENTANA 72H
+   ======================================== */
 
-                /* Texto principal da Ventana 72h - maior e mais legível */
-                .ventana-intro {
-                    font-size: clamp(1.1rem, 4.5vw, 1.3rem) !important;
-                    line-height: 1.8 !important;
-                    color: white !important;
-                    margin-bottom: clamp(24px, 5vw, 32px) !important;
-                }
+/* Texto principal da Ventana 72h - maior e mais legível */
+.ventana-intro {
+    font-size: clamp(1.1rem, 4.5vw, 1.3rem) !important;
+    line-height: 1.8 !important;
+    color: white !important;
+    margin-bottom: clamp(24px, 5vw, 32px) !important;
+}
 
-                /* Container das fases - mais espaçamento */
-                .fases-list {
-                    display: flex;
-                    flex-direction: column;
-                    gap: clamp(24px, 5vw, 32px) !important;
-                    margin: clamp(24px, 5vw, 32px) 0 !important;
-                }
+/* Container das fases - mais espaçamento */
+.fases-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 5vw, 32px) !important;
+    margin: clamp(24px, 5vw, 32px) 0 !important;
+}
 
-                /* Cada fase individual - card visual */
-                .fase-item-custom {
-                    background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(249, 115, 22, 0.1)) !important;
-                    border: 2px solid rgba(234, 179, 8, 0.4) !important;
-                    border-radius: 16px !important;
-                    padding: clamp(20px, 5vw, 28px) !important;
-                    box-shadow: 0 8px 24px rgba(234, 179, 8, 0.2) !important;
-                }
+/* Cada fase individual - card visual */
+.fase-item-custom {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(249, 115, 22, 0.1)) !important;
+    border: 2px solid rgba(234, 179, 8, 0.4) !important;
+    border-radius: 16px !important;
+    padding: clamp(20px, 5vw, 28px) !important;
+    box-shadow: 0 8px 24px rgba(234, 179, 8, 0.2) !important;
+}
 
-                /* Título de cada fase - destaque */
-                .fase-item-custom strong {
-                    display: block !important;
-                    font-size: clamp(1.2rem, 5vw, 1.5rem) !important;
-                    color: #facc15 !important;
-                    margin-bottom: clamp(12px, 3vw, 16px) !important;
-                    font-weight: 900 !important;
-                    letter-spacing: 0.5px !important;
-                }
+/* Título de cada fase - destaque */
+.fase-item-custom strong {
+    display: block !important;
+    font-size: clamp(1.2rem, 5vw, 1.5rem) !important;
+    color: #facc15 !important;
+    margin-bottom: clamp(12px, 3vw, 16px) !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.5px !important;
+}
 
-                /* Texto de cada fase - maior e espaçado */
-                .fase-item-custom p {
-                    font-size: clamp(1rem, 4vw, 1.2rem) !important;
-                    line-height: 1.7 !important;
-                    color: rgba(255, 255, 255, 0.95) !important;
-                    margin: 0 !important;
-                }
+/* Texto de cada fase - maior e espaçado */
+.fase-item-custom p {
+    font-size: clamp(1rem, 4vw, 1.2rem) !important;
+    line-height: 1.7 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    margin: 0 !important;
+}
 
-                /* Container da Ventana 72h - destaque visual */
-                .ventana-box-custom {
-                    background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(234, 179, 8, 0.1)) !important;
-                    border: 3px solid rgba(249, 115, 22, 0.5) !important;
-                    border-radius: 20px !important;
-                    padding: clamp(24px, 6vw, 40px) !important;
-                    box-shadow: 0 12px 48px rgba(249, 115, 22, 0.3) !important;
-                }
+/* Container da Ventana 72h - destaque visual */
+.ventana-box-custom {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(234, 179, 8, 0.1)) !important;
+    border: 3px solid rgba(249, 115, 22, 0.5) !important;
+    border-radius: 20px !important;
+    padding: clamp(24px, 6vw, 40px) !important;
+    box-shadow: 0 12px 48px rgba(249, 115, 22, 0.3) !important;
+}
 
-                /* Header da Ventana - mais impactante */
-                .ventana-header-custom {
-                    text-align: center !important;
-                    margin-bottom: clamp(24px, 5vw, 32px) !important;
-                }
+/* Header da Ventana - mais impactante */
+.ventana-header-custom {
+    text-align: center !important;
+    margin-bottom: clamp(24px, 5vw, 32px) !important;
+}
 
-                .ventana-header-custom span {
-                    font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
-                    display: block !important;
-                    margin-bottom: clamp(12px, 3vw, 16px) !important;
-                }
+.ventana-header-custom span {
+    font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
+    display: block !important;
+    margin-bottom: clamp(12px, 3vw, 16px) !important;
+}
 
-                .ventana-header-custom h2 {
-                    font-size: clamp(1.5rem, 6vw, 2rem) !important;
-                    color: #f97316 !important;
-                    font-weight: 900 !important;
-                    text-transform: uppercase !important;
-                    letter-spacing: 1px !important;
-                }
+.ventana-header-custom h2 {
+    font-size: clamp(1.5rem, 6vw, 2rem) !important;
+    color: #f97316 !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+}
 
-                /* Imagem da Ventana - mais destaque */
-                .ventana-img {
-                    width: 100% !important;
-                    max-width: 600px !important;
-                    border-radius: 16px !important;
-                    margin: clamp(24px, 5vw, 32px) auto !important;
-                    display: block !important;
-                    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4) !important;
-                    border: 3px solid rgba(249, 115, 22, 0.3) !important;
-                }
+/* Imagem da Ventana - mais destaque */
+.ventana-img {
+    width: 100% !important;
+    max-width: 600px !important;
+    border-radius: 16px !important;
+    margin: clamp(24px, 5vw, 32px) auto !important;
+    display: block !important;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4) !important;
+    border: 3px solid rgba(249, 115, 22, 0.3) !important;
+}
 
-                /* Separadores visuais (se houver "—" no texto) */
-                .ventana-intro strong,
-                .fase-item-custom strong {
-                    color: #facc15 !important;
-                }
+/* Separadores visuais (se houver "—" no texto) */
+.ventana-intro strong,
+.fase-item-custom strong {
+    color: #facc15 !important;
+}
 
-                /* Melhorar legibilidade em mobile */
-                @media (max-width: 768px) {
-                    .ventana-box-custom {
-                        padding: clamp(20px, 5vw, 24px) !important;
-                    }
-                    
-                    .fase-item-custom {
-                        padding: clamp(16px, 4vw, 20px) !important;
-                    }
-                }
+/* Melhorar legibilidade em mobile */
+@media (max-width: 768px) {
+    .ventana-box-custom {
+        padding: clamp(20px, 5vw, 24px) !important;
+    }
+    
+    .fase-item-custom {
+        padding: clamp(16px, 4vw, 20px) !important;
+    }
+}
             `}</style>
         </div>
     );
