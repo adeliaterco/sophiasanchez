@@ -95,7 +95,7 @@ export default function Result({ onNavigate }: ResultProps) {
     useEffect(() => {
         ensureUTMs();
         ga4Tracking.resultPageView();
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0); // Garante que a página sempre comece no topo
 
         const progressInterval = setInterval(() => {
             setLoadingProgress(prev => {
@@ -225,7 +225,7 @@ export default function Result({ onNavigate }: ResultProps) {
             case 3:
                 targetRef = ventana72SectionRef;
                 break;
-            case 4:
+            case 4: // Scroll para o novo vídeo pré-oferta
                 targetRef = preOfferVideoSectionRef;
                 break;
         }
@@ -248,12 +248,13 @@ export default function Result({ onNavigate }: ResultProps) {
         setButtonCheckmarks(prev => ({ ...prev, 0: true }));
         setFadeOutPhase(1);
 
+        // Transição mais rápida: 400ms
         setTimeout(() => {
             setCurrentPhase(2);
             ga4Tracking.phaseProgressionClicked({ phase_from: 1, phase_to: 2, button_name: 'Desbloquear El Vídeo Secreto' });
             ga4Tracking.videoStarted();
             setFadeOutPhase(null);
-        }, 1300);
+        }, 400); 
     };
 
     const handlePhase2ButtonClick = () => {
@@ -262,12 +263,13 @@ export default function Result({ onNavigate }: ResultProps) {
         setButtonCheckmarks(prev => ({ ...prev, 1: true }));
         setFadeOutPhase(2);
 
+        // Transição mais rápida: 400ms
         setTimeout(() => {
             setCurrentPhase(3);
             ga4Tracking.phaseProgressionClicked({ phase_from: 2, phase_to: 3, button_name: 'Revelar VENTANA DE 72 HORAS' });
             ga4Tracking.revelationViewed('Ventana 72 Horas', 2);
             setFadeOutPhase(null);
-        }, 1300);
+        }, 400);
     };
 
     const handlePhase3ButtonClick = () => {
@@ -275,13 +277,14 @@ export default function Result({ onNavigate }: ResultProps) {
         setButtonCheckmarks(prev => ({ ...prev, 2: true }));
         setFadeOutPhase(3);
 
+        // Transição mais rápida: 400ms
         setTimeout(() => {
             setCurrentPhase(4);
             ga4Tracking.phaseProgressionClicked({ phase_from: 3, phase_to: 4, button_name: 'Revelar Mi Plan Personalizado' });
             ga4Tracking.revelationViewed('Oferta Revelada', 3);
             ga4Tracking.offerRevealed();
             setFadeOutPhase(null);
-        }, 1300);
+        }, 400);
     };
 
     const handleCTAClick = () => {
@@ -1005,11 +1008,7 @@ export default function Result({ onNavigate }: ResultProps) {
                 )}
             </div>
 
-            {currentPhase >= 4 && (
-                <div className="sticky-footer-urgency fade-in-up">
-                    ⏰ {formatTime(timeLeft)} • {spotsLeft} spots restantes
-                </div>
-            )}
+            {/* REMOVIDO: Sticky Footer com Countdown Fixo */}
 
             <style jsx>{`
                 .result-container { padding-bottom: 100px; }
@@ -1051,14 +1050,14 @@ export default function Result({ onNavigate }: ResultProps) {
                 .delay-text { font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; }
                 .delay-progress-bar-container { width: 100%; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; overflow: hidden; }
                 .delay-progress-bar { height: 100%; background: #eab308; width: 0%; transition: width 1s linear; border-radius: 5px; }
-                .testimonials-section { margin-top: clamp(32px, 6vw, 48px); display: flex; flex-direction: column; gap: clamp(20px, 4vw, 24px); }
+                .testimonials-section { margin-top: clamp(32px, 6vw, 48px); display: flex; flexDirection: column; gap: clamp(20px, 4vw, 24px); }
                 .testimonial-card { border-radius: 16px; padding: clamp(20px, 5vw, 28px); display: flex; gap: clamp(16px, 4vw, 20px); align-items: flex-start; }
                 .ventana-box-custom { background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(234, 179, 8, 0.1)); border: 3px solid rgba(249, 115, 22, 0.5); border-radius: 20px; padding: clamp(24px, 6vw, 40px); box-shadow: 0 12px 48px rgba(249, 115, 22, 0.3); }
                 .ventana-header-custom { text-align: center; margin-bottom: clamp(24px, 5vw, 32px); }
                 .ventana-header-custom span { font-size: clamp(2.5rem, 8vw, 3.5rem); display: block; margin-bottom: clamp(12px, 3vw, 16px); }
                 .ventana-header-custom h2 { font-size: clamp(1.5rem, 6vw, 2rem); color: #f97316; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
                 .ventana-intro { font-size: clamp(1.1rem, 4.5vw, 1.3rem); line-height: 1.8; color: white; margin-bottom: clamp(24px, 5vw, 32px); }
-                .fases-list { display: flex; flex-direction: column; gap: clamp(24px, 5vw, 32px); margin: clamp(24px, 5vw, 32px) 0; }
+                .fases-list { display: flex; flexDirection: column; gap: clamp(24px, 5vw, 32px); margin: clamp(24px, 5vw, 32px) 0; }
                 .fase-item-custom { background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(249, 115, 22, 0.1)); border: 2px solid rgba(234, 179, 8, 0.4); border-radius: 16px; padding: clamp(20px, 5vw, 28px); box-shadow: 0 8px 24px rgba(234, 179, 8, 0.2); }
                 .fase-item-custom strong { display: block; font-size: clamp(1.2rem, 5vw, 1.5rem); color: #facc15; margin-bottom: clamp(12px, 3vw, 16px); font-weight: 900; letter-spacing: 0.5px; }
                 .fase-item-custom p { font-size: clamp(1rem, 4vw, 1.2rem); line-height: 1.7; color: rgba(255, 255, 255, 0.95); margin: 0; }
@@ -1072,7 +1071,7 @@ export default function Result({ onNavigate }: ResultProps) {
                 .price-old { text-decoration: line-through; opacity: 0.6; margin: 0; font-size: clamp(0.9rem, 3.5vw, 1.1rem); }
                 .price-new { font-size: clamp(2.5rem, 8vw, 3.5rem); color: #facc15; font-weight: 900; margin: 5px 0; }
                 .price-discount { color: #4ade80; font-weight: bold; font-size: clamp(0.9rem, 3.5vw, 1.1rem); }
-                .offer-features { display: flex; flex-direction: column; gap: clamp(12px, 3vw, 16px); margin-bottom: clamp(24px, 5vw, 32px); }
+                .offer-features { display: flex; flexDirection: column; gap: clamp(12px, 3vw, 16px); margin-bottom: clamp(24px, 5vw, 32px); }
                 .feature { display: flex; align-items: flex-start; gap: clamp(10px, 3vw, 12px); padding: clamp(8px, 2vw, 12px) 0; }
                 .check-icon { min-width: clamp(20px, 5vw, 24px); width: clamp(20px, 5vw, 24px); height: clamp(20px, 5vw, 24px); margin-top: 2px; color: #4ade80; }
                 .cta-button { width: 100%; color: black; font-weight: 900; padding: 20px; border-radius: 12px; border: 3px solid white; cursor: pointer; margin-top: 20px; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-size: clamp(1rem, 4vw, 1.5rem); }
@@ -1103,7 +1102,7 @@ export default function Result({ onNavigate }: ResultProps) {
                 .people-buying-counter { text-align: center; color: rgb(74, 222, 128); font-size: clamp(0.75rem, 3vw, 0.875rem); margin-top: clamp(12px, 3vw, 16px); margin-bottom: clamp(8px, 2vw, 12px); line-height: 1.5; font-weight: 500; opacity: 0.85; }
                 .social-proof-count { text-align: center; color: rgb(74, 222, 128); font-size: clamp(0.75rem, 3vw, 0.875rem); margin-bottom: clamp(8px, 2vw, 12px); line-height: 1.5; font-weight: 500; opacity: 0.85; }
                 .guarantee-text { text-align: center; font-size: clamp(0.75rem, 3vw, 0.875rem); line-height: 1.6; color: rgba(255, 255, 255, 0.7); padding: 0 8px; }
-                .sticky-footer-urgency { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.95); padding: 15px; color: #fde047; text-align: center; z-index: 1000; border-top: 2px solid #eab308; font-weight: bold; }
+                /* REMOVIDO: .sticky-footer-urgency { ... } */
                 .pre-offer-video-section { }
                 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
                 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
