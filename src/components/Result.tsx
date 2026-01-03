@@ -772,7 +772,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                         color: 'rgba(255,255,255,0.7)',
                                         textDecoration: 'line-through'
                                     }}>
-                                        $124
+                                        $123
                                     </strong>
                                 </div>
                                 <div style={{
@@ -792,7 +792,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                         color: '#10b981',
                                         fontWeight: '900'
                                     }}>
-                                        $9.90
+                                        $17
                                     </strong>
                                 </div>
                             </div>
@@ -810,7 +810,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                     fontWeight: '700',
                                     margin: 0
                                 }}>
-                                    🔥 92% DE DESCUENTO - SOLO HOY
+                                    🔥 86% DE DESCUENTO - SOLO HOY
                                 </p>
                             </div>
                         </div>
@@ -877,9 +877,9 @@ export default function Result({ onNavigate }: ResultProps) {
                         </div>
 
                         <div className="price-box">
-                            <p className="price-old">Precio regular: $124</p>
-                            <p className="price-new">$9.90</p>
-                            <p className="price-discount">💰 92% de descuento HOY</p>
+                            <p className="price-old">Precio regular: $123</p>
+                            <p className="price-new">$17.00</p>
+                            <p className="price-discount">💰 86% de descuento HOY</p>
                         </div>
 
                         <button 
@@ -892,7 +892,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             }}
                         >
                             <span style={{ display: 'block', marginBottom: '4px' }}>
-                                🚀 SÍ, QUIERO ACCESO POR $9.90
+                                🚀 SÍ, QUIERO ACCESO POR $17
                             </span>
                             <span style={{ 
                                 display: 'block', 
@@ -1085,6 +1085,25 @@ export default function Result({ onNavigate }: ResultProps) {
                 .btn-animation-fadein { animation: fadeIn 0.6s ease-in-out; }
                 .btn-animation-bounce { animation: bounce 1s infinite; }
                 .btn-animation-pulse { animation: pulse 1.5s infinite; }
+                .btn-animation-glowshake { animation: glowshake 2s infinite; }
+                .checkmark-container { display: flex; justify-content: center; align-items: center; margin-top: 20px; min-height: 80px; }
+                .checkmark-glow { font-size: 4rem; animation: checkmarkShine 1s ease-in-out; }
+                .guarantee-section { }
+                .real-proof-box { background: rgba(74, 222, 128, 0.1); border: 2px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 15px; text-align: center; color: #4ade80; margin: 20px 0; }
+                .real-proof-box p { margin: 5px 0; font-size: clamp(0.85rem, 3.5vw, 1rem); }
+                .trust-icons { display: flex; justify-content: center; gap: 15px; color: #4ade80; font-size: 0.85rem; margin-bottom: 20px; flex-wrap: wrap; }
+                .final-urgency-grid-optimized { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 2vw, 12px); margin: clamp(16px, 4vw, 20px) 0; }
+                .urgency-item-compact { background: rgba(0,0,0,0.3); padding: clamp(10px, 3vw, 12px); border-radius: 8px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
+                .people-buying-counter { text-align: center; color: rgb(74, 222, 128); font-size: clamp(0.75rem, 3vw, 0.875rem); margin-top: clamp(12px, 3vw, 16px); margin-bottom: clamp(8px, 2vw, 12px); line-height: 1.5; font-weight: 500; opacity: 0.85; }
+                .social-proof-count { text-align: center; color: rgb(74, 222, 128); font-size: clamp(0.75rem, 3vw, 0.875rem); margin-bottom: clamp(8px, 2vw, 12px); line-height: 1.5; font-weight: 500; opacity: 0.85; }
+                .guarantee-text { text-align: center; font-size: clamp(0.75rem, 3vw, 0.875rem); line-height: 1.6; color: rgba(255, 255, 255, 0.7); padding: 0 8px; }
+                .pre-offer-video-section { }
+                @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
+                @keyframes fadeInUp { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); } 70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(249, 115, 22, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); } }
                 @keyframes glowshake { 0%, 100% { transform: translateX(0) scale(1); box-shadow: 0 0 15px rgba(16, 185, 129, 0.8); } 25% { transform: translateX(-2px) scale(1.01); box-shadow: 0 0 20px rgba(16, 185, 129, 1); } 50% { transform: translateX(2px) scale(1); box-shadow: 0 0 15px rgba(16, 185, 129, 0.8); } 75% { transform: translateX(-2px) scale(1.01); box-shadow: 0 0 20px rgba(16, 185, 129, 1); } }
                 @keyframes checkmarkShine { 0% { opacity: 0; transform: scale(0.5); filter: brightness(1); } 50% { opacity: 1; transform: scale(1.1); filter: brightness(1.8); } 100% { opacity: 1; transform: scale(1); filter: brightness(1); } }
                 .fade-in { animation: fadeIn 0.6s ease-in-out; }
