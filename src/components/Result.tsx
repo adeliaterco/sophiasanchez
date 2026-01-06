@@ -182,12 +182,12 @@ export default function Result({ onNavigate }: ResultProps) {
             if (vslPlaceholder) {
                 vslPlaceholder.innerHTML = `
                     <div style="position: relative; width: 100%; max-width: 400px; margin: 0 auto; aspect-ratio: 9 / 16; background: #000; border-radius: 8px; overflow: hidden;">
-                        <vturb-smartplayer id="vid-695497a4a1bd76c80af62be3" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
+                        <vturb-smartplayer id="vid-695d3caeda723d6f8681bb69" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
                     </div>
                 `;
-                if (!document.querySelector('script[src*="695497a4a1bd76c80af62be3"]')) {
+                if (!document.querySelector('script[src*="695d3caeda723d6f8681bb69"]')) {
                     const s = document.createElement("script");
-                    s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/695497a4a1bd76c80af62be3/v4/player.js";
+                    s.src = "https://scripts.converteai.net/3a065640-eb45-46c2-91c4-76240dafeb82/players/695d3caeda723d6f8681bb69/v4/player.js";
                     s.async = true;
                     document.head.appendChild(s);
                 }
@@ -201,9 +201,9 @@ export default function Result({ onNavigate }: ResultProps) {
         if (currentPhase !== 4 || !preOfferVideoSectionRef.current) return;
         
         const timer = setTimeout(() => {
-            if (!document.querySelector('script[src*="6956c53dd883372e563d2c19"]')) {
+            if (!document.querySelector('script[src*="695d3c6093850164e9f7b6e0"]')) {
                 const s = document.createElement("script");
-                s.src = "https://scripts.converteai.net/d1055f81-b10e-4e76-a928-5438e4f7acf6/players/6956c53dd883372e563d2c19/v4/player.js";
+                s.src = "https://scripts.converteai.net/3a065640-eb45-46c2-91c4-76240dafeb82/players/695d3c6093850164e9f7b6e0/v4/player.js";
                 s.async = true;
                 document.head.appendChild(s);
             }
@@ -647,7 +647,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             overflow: 'hidden'
                         }}>
                             <vturb-smartplayer 
-                                id="vid-6956c53dd883372e563d2c19" 
+                                id="vid-695d3c6093850164e9f7b6e0" 
                                 style={{
                                     display: 'block',
                                     width: '100%',
