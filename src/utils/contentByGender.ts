@@ -120,8 +120,8 @@ Tu plan personalizado revela EXACTAMENTE qué hacer en cada fase.`;
 
 export function getOfferTitle(gender: string): string {
     return gender === 'HOMBRE'
-        ? 'Tu Plan de 21 Días para Reconquistar a Ella'
-        : 'Tu Plan de 21 Días para Reconquistar a Él';
+        ? 'Tu Plan para Reconquistar a Ella'
+        : 'Tu Plan para Reconquistar a Él';
 }
 
 export function getFeatures(gender: string): string[] {
