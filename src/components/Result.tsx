@@ -9,6 +9,8 @@ import {
     getLoadingMessage, 
     getCopy, 
     getVentana72Copy,
+    getVentanaSummary,
+    getVentanaImportance,
     getOfferTitle,
     getFeatures, 
     getCTA,
@@ -182,12 +184,12 @@ export default function Result({ onNavigate }: ResultProps) {
             if (vslPlaceholder) {
                 vslPlaceholder.innerHTML = `
                     <div style="position: relative; width: 100%; max-width: 400px; margin: 0 auto; aspect-ratio: 9 / 16; background: #000; border-radius: 8px; overflow: hidden;">
-                        <vturb-smartplayer id="vid-695d3caeda723d6f8681bb69" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
+                        <vturb-smartplayer id="vid-696e725eedc67029da1b185d" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
                     </div>
                 `;
-                if (!document.querySelector('script[src*="695d3caeda723d6f8681bb69"]')) {
+                if (!document.querySelector('script[src*="696e725eedc67029da1b185d"]')) {
                     const s = document.createElement("script");
-                    s.src = "https://scripts.converteai.net/3a065640-eb45-46c2-91c4-76240dafeb82/players/695d3caeda723d6f8681bb69/v4/player.js";
+                    s.src = "https://scripts.converteai.net/94d0eb5d-7a54-4dda-9f5b-5258dcaf0fde/players/696e725eedc67029da1b185d/v4/player.js";
                     s.async = true;
                     document.head.appendChild(s);
                 }
@@ -201,9 +203,9 @@ export default function Result({ onNavigate }: ResultProps) {
         if (currentPhase !== 4 || !preOfferVideoSectionRef.current) return;
         
         const timer = setTimeout(() => {
-            if (!document.querySelector('script[src*="695d3c6093850164e9f7b6e0"]')) {
+            if (!document.querySelector('script[src*="696e7294521058214ca9f4dd"]')) {
                 const s = document.createElement("script");
-                s.src = "https://scripts.converteai.net/3a065640-eb45-46c2-91c4-76240dafeb82/players/695d3c6093850164e9f7b6e0/v4/player.js";
+                s.src = "https://scripts.converteai.net/94d0eb5d-7a54-4dda-9f5b-5258dcaf0fde/players/696e7294521058214ca9f4dd/v4/player.js";
                 s.async = true;
                 document.head.appendChild(s);
             }
@@ -568,25 +570,90 @@ export default function Result({ onNavigate }: ResultProps) {
                         ref={ventana72SectionRef} 
                         className={`revelation fade-in ventana-box-custom ${fadeOutPhase === 3 ? 'fade-out' : ''}`}
                     >
+                        {/* ✅ TÍTULO */}
                         <div className="ventana-header-custom">
                             <span>⚡</span>
                             <h2>LA VENTANA DE 72 HORAS</h2>
                         </div>
-                        <p className="ventana-intro" style={{ whiteSpace: 'pre-line' }}>{getVentana72Copy(gender)}</p>
-                        <div className="fases-list">
-                            {[1, 2, 3].map(f => (
-                                <div key={f} className="fase-item-custom">
-                                    <strong>FASE {f} ({f === 1 ? '0-24h' : f === 2 ? '24-48h' : '48-72h'})</strong>
-                                    <p style={{ whiteSpace: 'pre-line' }}>{getFaseText(gender, f)}</p>
-                                </div>
-                            ))}
+
+                        {/* ✅ MINI EXPLICAÇÃO CIENTÍFICA (ANTES DA IMAGEM) */}
+                        <div className="ventana-scientific-intro">
+                            <p>
+                                Estudios de Harvard y Nature Neuroscience comprueban: existen ventanas neuroquímicas de 72 horas donde el cerebro de tu ex multiplica su receptividad emocional (dopamina, oxitocina, apego). 
+                                <strong> Este es el fundamento científico del proceso que verás ahora.</strong>
+                            </p>
                         </div>
+
+                        {/* ✅ IMAGEM DA REPORTAGEM (MOVIDA PARA O TOPO) */}
                         <img 
                             src="https://comprarplanseguro.shop/wp-content/uploads/2025/10/imagem3-nova.webp" 
-                            alt="Ventana 72h" 
-                            className="ventana-img"
+                            alt="Ventana 72h - Fundamento Científico" 
+                            className="ventana-img-top"
                         />
 
+                        {/* ✅ LEGENDA DA IMAGEM (DISCRETA) */}
+                        <p className="ventana-img-caption">
+                            La ciencia confirma: 72 horas es la ventana crítica para reactivar vínculos emocionales.
+                        </p>
+
+                        {/* ✅ CONTEÚDO ORIGINAL DA VENTANA (mantido) */}
+                        <div className="ventana-importance-box">
+                            <h3 className="importance-title">🔥 Por qué la Ventana es crucial</h3>
+                            <div className="importance-bullets">
+                                {getVentanaImportance().map((item, index) => (
+                                    <div key={index} className="importance-item">{item}</div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <p className="ventana-intro" style={{ whiteSpace: 'pre-line' }}>{getVentana72Copy(gender)}</p>
+
+                        <div className="ventana-summary-box">
+                            <h3 className="summary-quick-title">📋 Resumen de las 3 fases:</h3>
+                            <div className="summary-quick-list">
+                                {getVentanaSummary(gender).map((item, index) => (
+                                    <div key={index} className="summary-quick-item">{item}</div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ✅ FASES (formato cards dopaminéticos) */}
+                        <div className="fases-list-dopamine">
+                            {[1, 2, 3].map(f => {
+                                const faseData = getFaseText(gender, f);
+                                return (
+                                    <div key={f} className="fase-card-dopamine">
+                                        <div className="fase-card-header">
+                                            <div className="fase-number">FASE {f}</div>
+                                            <div className="fase-timerange">{faseData.timeRange}</div>
+                                        </div>
+
+                                        <h4 className="fase-card-title">
+                                            {f === 1 ? '🎯' : f === 2 ? '💡' : '❤️'} {faseData.title}
+                                        </h4>
+
+                                        <p className="fase-card-summary">{faseData.summary}</p>
+
+                                        <div className="fase-card-bullets">
+                                            {faseData.bullets.map((bullet, index) => (
+                                                <div key={index} className="fase-bullet-item">
+                                                    {bullet}
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="fase-card-warning">{faseData.warning}</div>
+
+                                        <div className="fase-card-footer">
+                                            <span className="fase-check">✔️ Fase {f} concluída</span>
+                                            {f < 3 && <span className="fase-next">Avance para la próxima →</span>}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        {/* ✅ BOTÃO FINAL */}
                         {buttonCheckmarks[2] ? (
                             <div className="checkmark-container">
                                 <div className="checkmark-glow">✅</div>
@@ -647,7 +714,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             overflow: 'hidden'
                         }}>
                             <vturb-smartplayer 
-                                id="vid-695d3c6093850164e9f7b6e0" 
+                                id="vid-696e7294521058214ca9f4dd" 
                                 style={{
                                     display: 'block',
                                     width: '100%',
@@ -1047,16 +1114,221 @@ export default function Result({ onNavigate }: ResultProps) {
                 .delay-progress-bar { height: 100%; background: #eab308; width: 0%; transition: width 1s linear; border-radius: 5px; }
                 .testimonials-section { margin-top: clamp(32px, 6vw, 48px); display: flex; flex-direction: column; gap: clamp(20px, 4vw, 24px); }
                 .testimonial-card { border-radius: 16px; padding: clamp(20px, 5vw, 28px); display: flex; gap: clamp(16px, 4vw, 20px); align-items: flex-start; }
-                .ventana-box-custom { background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(234, 179, 8, 0.1)); border: 3px solid rgba(249, 115, 22, 0.5); border-radius: 20px; padding: clamp(24px, 6vw, 40px); box-shadow: 0 12px 48px rgba(249, 115, 22, 0.3); }
-                .ventana-header-custom { text-align: center; margin-bottom: clamp(24px, 5vw, 32px); }
+                
+                /* ✅ NOVOS ESTILOS PARA VENTANA OTIMIZADA */
+                .ventana-box-custom { 
+                    background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(234, 179, 8, 0.1)); 
+                    border: 3px solid rgba(249, 115, 22, 0.5); 
+                    border-radius: 20px; 
+                    padding: clamp(20px, 5vw, 32px);
+                    box-shadow: 0 12px 48px rgba(249, 115, 22, 0.3); 
+                }
+                
+                .ventana-header-custom { text-align: center; margin-bottom: clamp(20px, 4vw, 28px); }
                 .ventana-header-custom span { font-size: clamp(2.5rem, 8vw, 3.5rem); display: block; margin-bottom: clamp(12px, 3vw, 16px); }
                 .ventana-header-custom h2 { font-size: clamp(1.5rem, 6vw, 2rem); color: #f97316; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
-                .ventana-intro { font-size: clamp(1.1rem, 4.5vw, 1.3rem); line-height: 1.8; color: white; margin-bottom: clamp(24px, 5vw, 32px); }
-                .fases-list { display: flex; flex-direction: column; gap: clamp(24px, 5vw, 32px); margin: clamp(24px, 5vw, 32px) 0; width: 100%; }
-                .fase-item-custom { width: 100%; background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(249, 115, 22, 0.1)); border: 2px solid rgba(234, 179, 8, 0.4); border-radius: 16px; padding: clamp(20px, 5vw, 28px); box-shadow: 0 8px 24px rgba(234, 179, 8, 0.2); }
-                .fase-item-custom strong { display: block; font-size: clamp(1.2rem, 5vw, 1.5rem); color: #facc15; margin-bottom: clamp(12px, 3vw, 16px); font-weight: 900; letter-spacing: 0.5px; }
-                .fase-item-custom p { font-size: clamp(1rem, 4vw, 1.2rem); line-height: 1.7; color: rgba(255, 255, 255, 0.95); margin: 0; }
-                .ventana-img { width: 100%; max-width: 600px; border-radius: 16px; margin: clamp(24px, 5vw, 32px) auto; display: block; box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4); border: 3px solid rgba(249, 115, 22, 0.3); }
+
+                /* ✅ MINI EXPLICAÇÃO CIENTÍFICA (ANTES DA IMAGEM) */
+                .ventana-scientific-intro {
+                    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(74, 222, 128, 0.1));
+                    border-left: 4px solid #10b981;
+                    border-radius: 12px;
+                    padding: clamp(16px, 4vw, 20px);
+                    margin-bottom: clamp(20px, 4vw, 24px);
+                }
+                .ventana-scientific-intro p {
+                    font-size: clamp(1rem, 4vw, 1.15rem);
+                    line-height: 1.7;
+                    color: rgba(255,255,255,0.95);
+                    margin: 0;
+                }
+                .ventana-scientific-intro strong {
+                    color: #4ade80;
+                    font-weight: 700;
+                }
+
+                /* ✅ IMAGEM NO TOPO (MOVIDA) */
+                .ventana-img-top { 
+                    width: 100%; 
+                    max-width: 600px; 
+                    border-radius: 16px; 
+                    margin: 0 auto clamp(12px, 3vw, 16px) auto; 
+                    display: block; 
+                    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4); 
+                    border: 3px solid rgba(249, 115, 22, 0.3); 
+                }
+
+                /* ✅ LEGENDA DA IMAGEM (DISCRETA) */
+                .ventana-img-caption {
+                    font-size: clamp(0.85rem, 3.5vw, 1rem);
+                    line-height: 1.5;
+                    color: rgba(255,255,255,0.7);
+                    text-align: center;
+                    font-style: italic;
+                    margin: 0 0 clamp(24px, 5vw, 32px) 0;
+                    padding: 0 clamp(12px, 3vw, 16px);
+                }
+
+                .ventana-importance-box {
+                    background: rgba(234, 179, 8, 0.1);
+                    border: 2px solid rgba(234, 179, 8, 0.3);
+                    border-radius: 12px;
+                    padding: clamp(16px, 4vw, 20px);
+                    margin-bottom: clamp(20px, 4vw, 28px);
+                }
+                .importance-title {
+                    font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+                    color: #facc15;
+                    font-weight: 900;
+                    margin: 0 0 clamp(12px, 3vw, 16px) 0;
+                    text-align: center;
+                }
+                .importance-bullets {
+                    display: flex;
+                    flex-direction: column;
+                    gap: clamp(8px, 2vw, 10px);
+                }
+                .importance-item {
+                    font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+                    color: rgba(255,255,255,0.9);
+                    line-height: 1.5;
+                    padding-left: 8px;
+                }
+
+                .ventana-intro { 
+                    font-size: clamp(1.05rem, 4vw, 1.25rem); 
+                    line-height: 1.7; 
+                    color: white; 
+                    margin-bottom: clamp(20px, 4vw, 28px); 
+                }
+
+                .ventana-summary-box {
+                    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(74, 222, 128, 0.08));
+                    border: 2px solid rgba(16, 185, 129, 0.3);
+                    border-radius: 12px;
+                    padding: clamp(16px, 4vw, 20px);
+                    margin-bottom: clamp(24px, 5vw, 32px);
+                }
+                .summary-quick-title {
+                    font-size: clamp(1.1rem, 4.5vw, 1.35rem);
+                    color: #10b981;
+                    font-weight: 900;
+                    margin: 0 0 clamp(12px, 3vw, 16px) 0;
+                }
+                .summary-quick-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: clamp(8px, 2vw, 10px);
+                }
+                .summary-quick-item {
+                    font-size: clamp(0.95rem, 3.8vw, 1.1rem);
+                    color: rgba(255,255,255,0.95);
+                    line-height: 1.5;
+                    font-weight: 600;
+                }
+
+                /* ✅ CARDS DOPAMINÉTICOS DAS FASES */
+                .fases-list-dopamine { 
+                    display: flex; 
+                    flex-direction: column; 
+                    gap: clamp(16px, 4vw, 20px);
+                    margin: clamp(24px, 5vw, 32px) 0; 
+                }
+
+                .fase-card-dopamine {
+                    background: linear-gradient(135deg, rgba(234, 179, 8, 0.12), rgba(249, 115, 22, 0.08));
+                    border: 2px solid rgba(234, 179, 8, 0.35);
+                    border-radius: 14px;
+                    padding: clamp(14px, 4vw, 18px);
+                    box-shadow: 0 4px 16px rgba(234, 179, 8, 0.15);
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                }
+                .fase-card-dopamine:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba(234, 179, 8, 0.25);
+                }
+
+                .fase-card-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: clamp(10px, 2.5vw, 12px);
+                }
+                .fase-number {
+                    font-size: clamp(0.85rem, 3.5vw, 1rem);
+                    color: #f97316;
+                    font-weight: 900;
+                    letter-spacing: 0.5px;
+                }
+                .fase-timerange {
+                    font-size: clamp(0.8rem, 3vw, 0.95rem);
+                    color: rgba(255,255,255,0.7);
+                    font-weight: 700;
+                }
+
+                .fase-card-title {
+                    font-size: clamp(1.15rem, 4.5vw, 1.4rem);
+                    color: #facc15;
+                    font-weight: 900;
+                    margin: 0 0 clamp(10px, 2.5vw, 12px) 0;
+                    line-height: 1.3;
+                }
+
+                .fase-card-summary {
+                    font-size: clamp(0.95rem, 3.8vw, 1.1rem);
+                    color: rgba(255,255,255,0.95);
+                    line-height: 1.5;
+                    margin: 0 0 clamp(14px, 3.5vw, 16px) 0;
+                    font-weight: 600;
+                    font-style: italic;
+                    background: rgba(0,0,0,0.15);
+                    padding: clamp(8px, 2vw, 10px);
+                    border-radius: 8px;
+                    border-left: 3px solid #facc15;
+                }
+
+                .fase-card-bullets {
+                    display: flex;
+                    flex-direction: column;
+                    gap: clamp(8px, 2vw, 10px);
+                    margin-bottom: clamp(12px, 3vw, 14px);
+                }
+                .fase-bullet-item {
+                    font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+                    color: rgba(255,255,255,0.9);
+                    line-height: 1.5;
+                    padding-left: 4px;
+                }
+
+                .fase-card-warning {
+                    background: rgba(239, 68, 68, 0.15);
+                    border: 1.5px solid rgba(239, 68, 68, 0.4);
+                    border-radius: 8px;
+                    padding: clamp(10px, 2.5vw, 12px);
+                    font-size: clamp(0.85rem, 3.5vw, 1rem);
+                    color: #fca5a5;
+                    font-weight: 600;
+                    margin-bottom: clamp(10px, 2.5vw, 12px);
+                }
+
+                .fase-card-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding-top: clamp(10px, 2.5vw, 12px);
+                    border-top: 1px solid rgba(255,255,255,0.1);
+                }
+                .fase-check {
+                    font-size: clamp(0.85rem, 3.5vw, 1rem);
+                    color: #4ade80;
+                    font-weight: 700;
+                }
+                .fase-next {
+                    font-size: clamp(0.8rem, 3vw, 0.95rem);
+                    color: rgba(255,255,255,0.6);
+                    font-weight: 600;
+                }
+
                 .offer-section-custom { background: rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; padding: clamp(20px, 5vw, 40px); margin-bottom: 30px; }
                 .offer-badge { display: inline-block; background: #f97316; color: black; padding: 8px 16px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; font-size: clamp(0.8rem, 3vw, 0.95rem); }
                 .offer-title-main { font-size: clamp(1.5rem, 6vw, 2rem); color: white; margin: 0 0 30px 0; font-weight: 900; text-align: center; }
