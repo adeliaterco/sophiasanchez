@@ -479,7 +479,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                             fontSize: 'clamp(0.75rem, 3vw, 0.875rem)',
                                             color: 'rgba(255,255,255,0.6)'
                                         }}>
-                                            • 29 años • Buenos Aires
+                                            • 29 años • Miami, FL
                                         </span>
                                     </div>
                                     <div style={{
@@ -513,7 +513,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             }}>
                                 <img 
                                     src="https://comprarplanseguro.shop/wp-content/uploads/2025/08/Captura-de-Tela-2025-08-08-as-19.01.05.png" 
-                                    alt="Diego R." 
+                                    alt="Alejandro S." 
                                     style={{
                                         width: 'clamp(60px, 15vw, 80px)',
                                         height: 'clamp(60px, 15vw, 80px)',
@@ -534,13 +534,13 @@ export default function Result({ onNavigate }: ResultProps) {
                                             fontSize: 'clamp(1rem, 4vw, 1.25rem)',
                                             color: '#eab308'
                                         }}>
-                                            Diego R.
+                                            Alejandro S.
                                         </strong>
                                         <span style={{
                                             fontSize: 'clamp(0.75rem, 3vw, 0.875rem)',
                                             color: 'rgba(255,255,255,0.6)'
                                         }}>
-                                            • 32 años • Ciudad de México
+                                            • 32 años • Madrid
                                         </span>
                                     </div>
                                     <div style={{
