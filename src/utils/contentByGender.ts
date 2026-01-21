@@ -92,6 +92,7 @@ ${reasonInsight}
 La clave no es rogar, sino entender la psicología de ${pronoun} y actuar de forma estratégica. En el siguiente paso, voy a revelar EXACTAMENTE el paso a paso científico para que ${pronoun} sienta que SÍ eres la persona correcta.`;
 }
 
+// ✅ INSTRUÇÃO #9: Sumário rápido + Instrução #6: Explicação da importância
 export function getVentana72Copy(gender: string): string {
     const pronoun = gender === 'HOMBRE' ? 'ella' : 'él';
     
@@ -116,6 +117,25 @@ En cada una de estas 3 fases, hay acciones CORRECTAS e INCORRECTAS.
 —
 
 Tu plan personalizado revela EXACTAMENTE qué hacer en cada fase.`;
+}
+
+// ✅ NOVO: Sumário rápido das 3 fases (Instrução #9)
+export function getVentanaSummary(gender: string): string[] {
+    return [
+        '🎯 Fase 1: Activar curiosidad y romper expectativas',
+        '💡 Fase 2: Restaurar valor percibido sin presión',
+        '❤️ Fase 3: Crear oportunidad de reconexión emocional'
+    ];
+}
+
+// ✅ NOVO: Explicação da importância (Instrução #6)
+export function getVentanaImportance(): string[] {
+    return [
+        '🔬 Respaldado por neurociencia del comportamiento',
+        '⏰ Cada ciclo de 72h reescribe memorias emocionales',
+        '🎯 Actuar correcto = atracción renovada',
+        '⚠️ Actuar incorrecto = cierre emocional definitivo'
+    ];
 }
 
 export function getOfferTitle(gender: string): string {
@@ -155,36 +175,64 @@ export function getCompletionBadge(gender: string): { title: string; subtitle: s
     };
 }
 
-export function getFaseText(gender: string, fase: number): string {
+// ✅ REFATORADO: Agora retorna objeto estruturado (Instruções #2, #3, #8)
+export function getFaseText(gender: string, fase: number): { 
+    title: string; 
+    timeRange: string;
+    summary: string; 
+    bullets: string[];
+    warning: string;
+} {
     const pronoun = gender === 'HOMBRE' ? 'Ella' : 'Él';
     const pronounLower = gender === 'HOMBRE' ? 'ella' : 'él';
     const oppositeGender = gender === 'HOMBRE' ? 'él' : 'ella';
     
-    const fases: Record<number, string> = {
-        1: `${pronoun} recibe la primera señal de que algo cambió en ti.
-
-Su cerebro abandona el "modo alivio" y activa el "modo curiosidad".
-
-Empieza a preguntarse: "¿Qué está pasando con ${oppositeGender}?"
-
-⚠️ PELIGRO: Si actúas incorrectamente aquí, confirmas que ${pronounLower} tomó la decisión correcta.`,
+    const fases: Record<number, { title: string; timeRange: string; summary: string; bullets: string[]; warning: string }> = {
+        1: {
+            title: 'Activación de Curiosidad',
+            timeRange: '0-24 HORAS',
+            summary: `${pronoun} recibe la primera señal de que algo cambió en ti y su cerebro activa el "modo curiosidad"`,
+            bullets: [
+                `✨ ${pronoun} abandona el "modo alivio" post-ruptura`,
+                '🧠 Su cerebro detecta cambios en tu comportamiento',
+                `💭 Empieza a preguntarse: "¿Qué está pasando con ${oppositeGender}?"`,
+                '🔄 Se activa el circuito de curiosidad neurológica'
+            ],
+            warning: `⚠️ Si actúas incorrectamente aquí, confirmas que ${pronounLower} tomó la decisión correcta`
+        },
         
-        2: `${pronoun} empieza a reevaluar las memorias que había "archivado".
-
-La oxitocina (hormona del apego) se reactiva.
-
-Los buenos momentos que ${pronounLower} había "olvidado" vuelven a su mente.
-
-⚠️ PELIGRO: Si presionas demasiado, ${pronounLower} cierra el ciclo y te bloquea definitivamente.`,
+        2: {
+            title: 'Restauración de Valor Percibido',
+            timeRange: '24-48 HORAS',
+            summary: `${pronoun} empieza a reevaluar las memorias archivadas y la oxitocina se reactiva`,
+            bullets: [
+                `🧬 La oxitocina (hormona del apego) vuelve a activarse`,
+                `💫 Los buenos momentos que ${pronounLower} había "olvidado" regresan a su mente`,
+                '🎭 Su cerebro reconstruye tu imagen de forma más positiva',
+                '🔓 Las defensas emocionales empiezan a debilitarse'
+            ],
+            warning: `⚠️ Si presionas demasiado, ${pronounLower} cierra el ciclo y te bloquea definitivamente`
+        },
         
-        3: `${pronoun} siente la necesidad de "cerrar el ciclo" de forma definitiva.
-
-Su cerebro busca una resolución emocional.
-
-Aquí es donde tú reapareces de forma estratégica con el Protocolo de Reconexión.
-
-⚠️ PELIGRO: 87% de las personas pierden a su ex en esta fase por no saber qué hacer.`
+        3: {
+            title: 'Reconexión Estratégica',
+            timeRange: '48-72 HORAS',
+            summary: `${pronoun} siente la necesidad de "cerrar el ciclo" emocionalmente y aquí reapareces con el Protocolo`,
+            bullets: [
+                `🎯 ${pronoun} busca una resolución emocional definitiva`,
+                '💝 El apego latente busca expresión consciente',
+                '🚪 Aquí es donde tú reapareces de forma estratégica',
+                '⚡ Momento crítico para aplicar el Protocolo de Reconexión'
+            ],
+            warning: '⚠️ 87% de las personas pierden a su ex en esta fase por no saber qué hacer'
+        }
     };
     
-    return fases[fase] || '';
+    return fases[fase] || {
+        title: '',
+        timeRange: '',
+        summary: '',
+        bullets: [],
+        warning: ''
+    };
 }
