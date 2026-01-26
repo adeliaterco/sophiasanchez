@@ -25,7 +25,8 @@ interface ResultProps {
 export default function Result({ onNavigate }: ResultProps) {
     const [currentPhase, setCurrentPhase] = useState(0);
     const [fadeOutPhase, setFadeOutPhase] = useState<number | null>(null);
-    const [videoButtonDelayLeft, setVideoButtonDelayLeft] = useState(20);
+    // ✅ MUDANÇA 1: Delay reduzido de 20s → 10s
+    const [videoButtonDelayLeft, setVideoButtonDelayLeft] = useState(10);
     const [isVideoButtonEnabled, setIsVideoButtonEnabled] = useState(false);
     const [buttonCheckmarks, setButtonCheckmarks] = useState<{[key: number]: boolean}>({
         0: false,
@@ -155,7 +156,8 @@ export default function Result({ onNavigate }: ResultProps) {
     useEffect(() => {
         let delayInterval: NodeJS.Timeout;
         if (currentPhase === 2) {
-            setVideoButtonDelayLeft(20);
+            // ✅ MUDANÇA 1: Delay reduzido de 20s → 10s
+            setVideoButtonDelayLeft(10);
             setIsVideoButtonEnabled(false);
 
             delayInterval = setInterval(() => {
@@ -199,20 +201,7 @@ export default function Result({ onNavigate }: ResultProps) {
         return () => clearTimeout(timer);
     }, [currentPhase]);
 
-    useEffect(() => {
-        if (currentPhase !== 4 || !preOfferVideoSectionRef.current) return;
-        
-        const timer = setTimeout(() => {
-            if (!document.querySelector('script[src*="696e7294521058214ca9f4dd"]')) {
-                const s = document.createElement("script");
-                s.src = "https://scripts.converteai.net/94d0eb5d-7a54-4dda-9f5b-5258dcaf0fde/players/696e7294521058214ca9f4dd/v4/player.js";
-                s.async = true;
-                document.head.appendChild(s);
-            }
-        }, 500);
-        
-        return () => clearTimeout(timer);
-    }, [currentPhase]);
+    // ✅ MUDANÇA 2: useEffect do vídeo pré-oferta REMOVIDO
 
     useEffect(() => {
         let targetRef: React.RefObject<HTMLDivElement> | null = null;
@@ -653,7 +642,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             })}
                         </div>
 
-                        {/* ✅ BOTÃO FINAL */}
+                        {/* ✅ MUDANÇA 3: Botão alterado */}
                         {buttonCheckmarks[2] ? (
                             <div className="checkmark-container">
                                 <div className="checkmark-glow">✅</div>
@@ -663,411 +652,590 @@ export default function Result({ onNavigate }: ResultProps) {
                                 className="cta-button btn-orange btn-size-3 btn-animation-pulse" 
                                 onClick={handlePhase3ButtonClick}
                             >
-                                ⚡ Revelar Mi Plan Personalizado
+                                ⚡ Ver Mi Plan Y Precio Especial
                             </button>
                         )}
                     </div>
                 )}
 
+                {/* ✅ MUDANÇA 2: Vídeo pré-oferta substituído por copy de transição */}
                 {currentPhase === 4 && (
                     <div 
                         ref={preOfferVideoSectionRef}
-                        className="pre-offer-video-section fade-in"
+                        className="pre-offer-transition-section fade-in"
                         style={{
-                            marginBottom: 'clamp(32px, 6vw, 48px)',
-                            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(234, 179, 8, 0.1))',
-                            border: '3px solid rgba(16, 185, 129, 0.4)',
+                            marginBottom: 'clamp(24px, 5vw, 32px)',
+                            background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(234, 179, 8, 0.15))',
+                            border: '3px solid rgba(249, 115, 22, 0.6)',
                             borderRadius: '16px',
-                            padding: 'clamp(20px, 5vw, 32px)',
-                            boxShadow: '0 8px 32px rgba(16, 185, 129, 0.3)'
+                            padding: 'clamp(24px, 5vw, 32px)',
+                            boxShadow: '0 8px 32px rgba(249, 115, 22, 0.4)',
+                            textAlign: 'center'
                         }}
                     >
-                        <div style={{
-                            textAlign: 'center',
-                            marginBottom: 'clamp(20px, 4vw, 24px)'
-                        }}>
-                            <h3 style={{
-                                fontSize: 'clamp(1.25rem, 5vw, 1.75rem)',
-                                color: '#10b981',
-                                fontWeight: '900',
-                                marginBottom: 'clamp(12px, 3vw, 16px)'
-                            }}>
-                                🎥 MENSAJE FINAL ANTES DE REVELAR TU PLAN
-                            </h3>
-                            <p style={{
-                                fontSize: 'clamp(0.95rem, 4vw, 1.1rem)',
-                                color: 'rgba(255,255,255,0.9)',
-                                lineHeight: '1.6'
-                            }}>
-                                Mira este último mensaje importante antes de acceder a tu solución personalizada
-                            </p>
+                        <div style={{ fontSize: 'clamp(2.5rem, 8vw, 3.5rem)', marginBottom: '16px' }}>
+                            🎯
                         </div>
                         
-                        <div style={{
-                            position: 'relative',
-                            width: '100%',
-                            maxWidth: '400px',
-                            margin: '0 auto',
-                            aspectRatio: '9 / 16',
-                            background: '#000',
-                            borderRadius: '8px',
-                            overflow: 'hidden'
+                        <h3 style={{
+                            fontSize: 'clamp(1.5rem, 6vw, 2rem)',
+                            color: '#f97316',
+                            fontWeight: '900',
+                            marginBottom: 'clamp(16px, 4vw, 20px)',
+                            lineHeight: '1.3'
                         }}>
-                            <vturb-smartplayer 
-                                id="vid-696e7294521058214ca9f4dd" 
-                                style={{
-                                    display: 'block',
-                                    width: '100%',
-                                    height: '100%',
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0
-                                }}
-                            ></vturb-smartplayer>
-                        </div>
+                            LLEGASTE AL ÚLTIMO PASO
+                        </h3>
+                        
+                        <p style={{
+                            fontSize: 'clamp(1.05rem, 4vw, 1.25rem)',
+                            color: 'rgba(255,255,255,0.95)',
+                            lineHeight: '1.6',
+                            marginBottom: '0',
+                            fontWeight: '600'
+                        }}>
+                            Ya conoces tu diagnóstico.<br/>
+                            Ya viste la Ventana de 72 Horas.<br/>
+                            Ya sabes que <strong style={{ color: '#facc15' }}>esto funciona</strong>.<br/><br/>
+                            
+                            Ahora solo falta una cosa:<br/>
+                            <strong style={{ color: '#4ade80', fontSize: 'clamp(1.15rem, 4.5vw, 1.35rem)' }}>
+                                APLICARLO EN TU CASO.
+                            </strong>
+                        </p>
                     </div>
                 )}
 
+                {/* ✅ MUDANÇA 4: Oferta completa substituída */}
                 {currentPhase >= 4 && (
                     <div ref={offerSectionRef} className="revelation fade-in offer-section-custom">
-                        <div className="offer-badge">OFERTA EXCLUSIVA</div>
-                        <h2 className="offer-title-main">{getOfferTitle(gender)}</h2>
-
-                        <div className="value-stack-box" style={{
-                            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(234, 179, 8, 0.1))',
-                            border: '3px solid rgba(16, 185, 129, 0.4)',
-                            borderRadius: '16px',
-                            padding: 'clamp(20px, 5vw, 32px)',
-                            marginBottom: 'clamp(24px, 5vw, 32px)',
-                            boxShadow: '0 8px 32px rgba(16, 185, 129, 0.3)'
+                        
+                        <h2 style={{
+                            fontSize: 'clamp(1.75rem, 7vw, 2.5rem)',
+                            color: 'white',
+                            fontWeight: '900',
+                            textAlign: 'center',
+                            lineHeight: '1.2',
+                            marginBottom: 'clamp(12px, 3vw, 16px)'
                         }}>
-                            <h3 style={{
-                                fontSize: 'clamp(1.25rem, 5vw, 1.75rem)',
-                                color: '#10b981',
-                                textAlign: 'center',
-                                marginBottom: 'clamp(16px, 4vw, 24px)',
-                                fontWeight: '900'
+                            Recupera A {gender === 'HOMBRE' ? 'La Mujer Que Amas' : 'El Hombre Que Amas'} En 72 Horas
+                        </h2>
+                        
+                        <p style={{
+                            fontSize: 'clamp(1.05rem, 4vw, 1.25rem)',
+                            color: 'rgba(255,255,255,0.85)',
+                            textAlign: 'center',
+                            marginBottom: 'clamp(24px, 5vw, 32px)',
+                            fontStyle: 'italic'
+                        }}>
+                            (O Devolvemos El 100% De Tu Dinero)
+                        </p>
+
+                        <div style={{
+                            background: 'rgba(16, 185, 129, 0.1)',
+                            border: '2px solid rgba(16, 185, 129, 0.3)',
+                            borderRadius: '12px',
+                            padding: 'clamp(16px, 4vw, 20px)',
+                            marginBottom: 'clamp(24px, 5vw, 32px)',
+                            textAlign: 'center'
+                        }}>
+                            <p style={{
+                                fontSize: 'clamp(1rem, 4vw, 1.2rem)',
+                                color: '#4ade80',
+                                fontWeight: '700',
+                                margin: 0,
+                                lineHeight: '1.6'
                             }}>
-                                💎 LO QUE RECIBES HOY
-                            </h3>
-                            
-                            <div style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: 'clamp(8px, 2vw, 12px)',
-                                marginBottom: 'clamp(16px, 4vw, 20px)'
-                            }}>
-                                <div className="value-item" style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: 'clamp(8px, 2vw, 12px)',
-                                    background: 'rgba(0,0,0,0.3)',
-                                    borderRadius: '8px'
+                                ✓ Método usado por <strong>+9.247 hombres</strong> para reconquistar a su ex<br/>
+                                (incluso cuando ella estaba con otro)
+                            </p>
+                        </div>
+
+                        <div style={{
+                            background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(234, 179, 8, 0.15))',
+                            border: '3px solid rgba(234, 179, 8, 0.4)',
+                            borderRadius: '16px',
+                            padding: 'clamp(20px, 5vw, 28px)',
+                            marginBottom: 'clamp(24px, 5vw, 32px)',
+                            display: 'grid',
+                            gridTemplateColumns: '1fr',
+                            gap: 'clamp(16px, 4vw, 20px)'
+                        }}>
+                            <div>
+                                <h3 style={{
+                                    fontSize: 'clamp(1.15rem, 4.5vw, 1.4rem)',
+                                    color: '#ef4444',
+                                    fontWeight: '900',
+                                    marginBottom: 'clamp(12px, 3vw, 14px)'
                                 }}>
-                                    <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.1rem)' }}>
-                                        📱 Módulo 1: Cómo Hablar Con {gender === 'HOMBRE' ? 'Ella' : 'Él'}
-                                    </span>
-                                    <strong style={{ color: '#10b981', fontSize: 'clamp(1rem, 4vw, 1.25rem)' }}>$27</strong>
-                                </div>
-                                <div className="value-item" style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: 'clamp(8px, 2vw, 12px)',
-                                    background: 'rgba(0,0,0,0.3)',
-                                    borderRadius: '8px'
+                                    🚫 HOY (sin el plan):
+                                </h3>
+                                <ul style={{
+                                    listStyle: 'none',
+                                    padding: 0,
+                                    margin: 0,
+                                    fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)',
+                                    color: 'rgba(255,255,255,0.9)',
+                                    lineHeight: '1.8'
                                 }}>
-                                    <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.1rem)' }}>👥 Módulo 2: Cómo Encontrarte</span>
-                                    <strong style={{ color: '#10b981', fontSize: 'clamp(1rem, 4vw, 1.25rem)' }}>$27</strong>
-                                </div>
-                                <div className="value-item" style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: 'clamp(8px, 2vw, 12px)',
-                                    background: 'rgba(0,0,0,0.3)',
-                                    borderRadius: '8px'
-                                }}>
-                                    <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.1rem)' }}>❤️ Módulo 3: Reconquista Definitiva</span>
-                                    <strong style={{ color: '#10b981', fontSize: 'clamp(1rem, 4vw, 1.25rem)' }}>$27</strong>
-                                </div>
-                                <div className="value-item" style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: 'clamp(8px, 2vw, 12px)',
-                                    background: 'rgba(0,0,0,0.3)',
-                                    borderRadius: '8px'
-                                }}>
-                                    <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.1rem)' }}>🚨 Módulo 4: Protocolo de Emergencia</span>
-                                    <strong style={{ color: '#10b981', fontSize: 'clamp(1rem, 4vw, 1.25rem)' }}>$27</strong>
-                                </div>
-                                <div className="value-item" style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: 'clamp(8px, 2vw, 12px)',
-                                    background: 'rgba(0,0,0,0.3)',
-                                    borderRadius: '8px'
-                                }}>
-                                    <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.1rem)' }}>🎁 Bônus: Scripts + Guías</span>
-                                    <strong style={{ color: '#10b981', fontSize: 'clamp(1rem, 4vw, 1.25rem)' }}>$15</strong>
-                                </div>
+                                    <li>❌ {gender === 'HOMBRE' ? 'Bloqueado en WhatsApp' : 'Sin respuestas de él'}</li>
+                                    <li>❌ {gender === 'HOMBRE' ? 'Ella con otro tipo' : 'Él con otra persona'}</li>
+                                    <li>❌ Sin saber qué hacer (cometiendo errores fatales)</li>
+                                </ul>
                             </div>
 
-                            <div style={{
-                                borderTop: '2px solid rgba(16, 185, 129, 0.3)',
-                                paddingTop: 'clamp(12px, 3vw, 16px)',
-                                marginBottom: 'clamp(12px, 3vw, 16px)'
-                            }}>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    marginBottom: 'clamp(8px, 2vw, 12px)'
+                            <div>
+                                <h3 style={{
+                                    fontSize: 'clamp(1.15rem, 4.5vw, 1.4rem)',
+                                    color: '#4ade80',
+                                    fontWeight: '900',
+                                    marginBottom: 'clamp(12px, 3vw, 14px)'
                                 }}>
-                                    <span style={{ 
-                                        fontSize: 'clamp(1rem, 4vw, 1.25rem)', 
-                                        color: 'rgba(255,255,255,0.7)',
-                                        textDecoration: 'line-through'
-                                    }}>
-                                        VALOR TOTAL:
-                                    </span>
-                                    <strong style={{ 
-                                        fontSize: 'clamp(1.25rem, 5vw, 1.75rem)', 
-                                        color: 'rgba(255,255,255,0.7)',
-                                        textDecoration: 'line-through'
-                                    }}>
-                                        $123
-                                    </strong>
-                                </div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center'
+                                    ✅ EN 72 HORAS (con el plan):
+                                </h3>
+                                <ul style={{
+                                    listStyle: 'none',
+                                    padding: 0,
+                                    margin: 0,
+                                    fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)',
+                                    color: 'rgba(255,255,255,0.9)',
+                                    lineHeight: '1.8'
                                 }}>
-                                    <span style={{ 
-                                        fontSize: 'clamp(1.25rem, 5vw, 1.75rem)', 
-                                        color: '#facc15',
-                                        fontWeight: '900'
-                                    }}>
-                                        PRECIO HOY:
-                                    </span>
-                                    <strong style={{ 
-                                        fontSize: 'clamp(2rem, 8vw, 3rem)', 
-                                        color: '#10b981',
-                                        fontWeight: '900'
-                                    }}>
-                                        $17
-                                    </strong>
-                                </div>
-                            </div>
-
-                            <div style={{
-                                background: 'rgba(250, 204, 21, 0.2)',
-                                border: '2px solid rgba(250, 204, 21, 0.5)',
-                                borderRadius: '12px',
-                                padding: 'clamp(12px, 3vw, 16px)',
-                                textAlign: 'center'
-                            }}>
-                                <p style={{
-                                    fontSize: 'clamp(1rem, 4vw, 1.25rem)',
-                                    color: '#facc15',
-                                    fontWeight: '700',
-                                    margin: 0
-                                }}>
-                                    🔥 86% DE DESCUENTO - SOLO HOY
-                                </p>
+                                    <li>✅ {gender === 'HOMBRE' ? 'Ella pensando en ti' : 'Él pensando en ti'} (sin que lo notes)</li>
+                                    <li>✅ Protocolo exacto para cada día</li>
+                                    <li>✅ {gender === 'HOMBRE' ? 'Ella escribiendo primero' : 'Él escribiendo primero'} (13-21 días)</li>
+                                </ul>
                             </div>
                         </div>
 
-                        <div className="quiz-summary-box" style={{
+                        <div style={{
                             background: 'rgba(234, 179, 8, 0.1)',
                             border: '2px solid rgba(234, 179, 8, 0.3)',
                             borderRadius: '12px',
-                            padding: '20px',
-                            marginBottom: '30px'
+                            padding: 'clamp(16px, 4vw, 20px)',
+                            marginBottom: 'clamp(24px, 5vw, 32px)'
                         }}>
                             <p style={{
-                                fontSize: 'clamp(0.875rem, 3.5vw, 1rem)',
-                                color: 'rgb(253, 224, 71)',
-                                marginBottom: 'clamp(12px, 3vw, 16px)',
-                                fontWeight: 'bold'
+                                fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)',
+                                color: '#facc15',
+                                fontWeight: '700',
+                                marginBottom: 'clamp(12px, 3vw, 14px)',
+                                textAlign: 'center'
                             }}>
-                                Basado en tu situación específica:
+                                📋 PLAN PERSONALIZADO PARA TU CASO ESPECÍFICO:
                             </p>
                             <ul style={{
                                 listStyle: 'none',
                                 padding: 0,
                                 margin: 0,
-                                fontSize: 'clamp(0.875rem, 3.5vw, 1rem)',
+                                fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
                                 color: 'white',
-                                lineHeight: '1.8'
+                                lineHeight: '1.7'
                             }}>
-                                <li>✓ <strong>Tiempo:</strong> {quizData.timeSeparation || 'No especificado'}</li>
-                                <li>✓ <strong>Quién terminó:</strong> {quizData.whoEnded || 'No especificado'}</li>
-                                <li>✓ <strong>Contacto:</strong> {quizData.currentSituation || 'No especificado'}</li>
-                                <li>✓ <strong>Compromiso:</strong> {quizData.commitmentLevel || 'No especificado'}</li>
+                                <li>✓ Tiempo separados: <strong>{quizData.timeSeparation || 'No especificado'}</strong></li>
+                                <li>✓ Quién terminó: <strong>{quizData.whoEnded || 'No especificado'}</strong></li>
+                                <li>✓ Situación de contacto: <strong>{quizData.currentSituation || 'No especificado'}</strong></li>
+                                <li>✓ Nivel de compromiso: <strong>{quizData.commitmentLevel || 'No especificado'}</strong></li>
                             </ul>
                         </div>
 
-                        <div className="offer-features" style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 'clamp(12px, 3vw, 16px)',
+                        <div style={{
+                            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(74, 222, 128, 0.1))',
+                            border: '3px solid rgba(16, 185, 129, 0.4)',
+                            borderRadius: '16px',
+                            padding: 'clamp(20px, 5vw, 28px)',
                             marginBottom: 'clamp(24px, 5vw, 32px)'
                         }}>
-                            {getFeatures(gender).map((feature, index) => (
-                                <div key={index} className="feature" style={{
-                                    display: 'flex',
-                                    alignItems: 'flex-start',
-                                    gap: 'clamp(10px, 3vw, 12px)',
-                                    padding: 'clamp(8px, 2vw, 12px) 0'
+                            <h3 style={{
+                                fontSize: 'clamp(1.25rem, 5vw, 1.6rem)',
+                                color: '#10b981',
+                                fontWeight: '900',
+                                textAlign: 'center',
+                                marginBottom: 'clamp(16px, 4vw, 20px)'
+                            }}>
+                                💎 EL PLAN COMPLETO INCLUYE:
+                            </h3>
+                            
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 'clamp(10px, 2.5vw, 12px)'
+                            }}>
+                                <div style={{
+                                    background: 'rgba(0,0,0,0.3)',
+                                    padding: 'clamp(12px, 3vw, 14px)',
+                                    borderRadius: '10px',
+                                    borderLeft: '4px solid #10b981'
                                 }}>
-                                    <svg className="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" style={{
-                                        minWidth: 'clamp(20px, 5vw, 24px)',
-                                        width: 'clamp(20px, 5vw, 24px)',
-                                        height: 'clamp(20px, 5vw, 24px)',
-                                        marginTop: '2px',
-                                        color: '#4ade80'
-                                    }}>
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    <span style={{
-                                        fontSize: 'clamp(0.9rem, 3.5vw, 1.125rem)',
-                                        lineHeight: '1.5',
-                                        flex: 1
-                                    }}>{feature}</span>
+                                    <strong style={{ fontSize: 'clamp(1rem, 4vw, 1.15rem)', color: '#4ade80' }}>
+                                        📱 Módulo 1: Protocolo de Contacto Cero
+                                    </strong>
+                                    <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.8)', margin: '6px 0 0 0' }}>
+                                        Qué hacer (y NO hacer) en las primeras 72 horas
+                                    </p>
                                 </div>
-                            ))}
+
+                                <div style={{
+                                    background: 'rgba(0,0,0,0.3)',
+                                    padding: 'clamp(12px, 3vw, 14px)',
+                                    borderRadius: '10px',
+                                    borderLeft: '4px solid #10b981'
+                                }}>
+                                    <strong style={{ fontSize: 'clamp(1rem, 4vw, 1.15rem)', color: '#4ade80' }}>
+                                        👥 Módulo 2: Reactivación de Atracción
+                                    </strong>
+                                    <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.8)', margin: '6px 0 0 0' }}>
+                                        Cómo volver a ser {gender === 'HOMBRE' ? 'el hombre que ella quería' : 'la mujer que él quería'}
+                                    </p>
+                                </div>
+
+                                <div style={{
+                                    background: 'rgba(0,0,0,0.3)',
+                                    padding: 'clamp(12px, 3vw, 14px)',
+                                    borderRadius: '10px',
+                                    borderLeft: '4px solid #10b981'
+                                }}>
+                                    <strong style={{ fontSize: 'clamp(1rem, 4vw, 1.15rem)', color: '#4ade80' }}>
+                                        ❤️ Módulo 3: Reconquista Definitiva
+                                    </strong>
+                                    <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.8)', margin: '6px 0 0 0' }}>
+                                        Los 7 pasos exactos para {gender === 'HOMBRE' ? 'que ella te escriba primero' : 'que él te escriba primero'}
+                                    </p>
+                                </div>
+
+                                <div style={{
+                                    background: 'rgba(0,0,0,0.3)',
+                                    padding: 'clamp(12px, 3vw, 14px)',
+                                    borderRadius: '10px',
+                                    borderLeft: '4px solid #ef4444'
+                                }}>
+                                    <strong style={{ fontSize: 'clamp(1rem, 4vw, 1.15rem)', color: '#fca5a5' }}>
+                                        🚨 Módulo 4: Protocolo de Emergencia
+                                    </strong>
+                                    <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.8)', margin: '6px 0 0 0' }}>
+                                        Qué hacer si {gender === 'HOMBRE' ? 'ella está con otro' : 'él está con otra'} (salvó +2.100 casos)
+                                    </p>
+                                </div>
+
+                                <div style={{
+                                    background: 'rgba(0,0,0,0.3)',
+                                    padding: 'clamp(12px, 3vw, 14px)',
+                                    borderRadius: '10px',
+                                    borderLeft: '4px solid #facc15'
+                                }}>
+                                    <strong style={{ fontSize: 'clamp(1rem, 4vw, 1.15rem)', color: '#facc15' }}>
+                                        🎁 BÔNUS: Scripts + Guías PDF
+                                    </strong>
+                                    <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.8)', margin: '6px 0 0 0' }}>
+                                        Mensajes exactos para cada situación
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="price-box">
-                            <p className="price-old">Precio regular: $123</p>
-                            <p className="price-new">$17.00</p>
-                            <p className="price-discount">💰 86% de descuento HOY</p>
+                        <div style={{
+                            background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(249, 115, 22, 0.15))',
+                            border: '3px solid rgba(234, 179, 8, 0.5)',
+                            borderRadius: '16px',
+                            padding: 'clamp(24px, 5vw, 32px)',
+                            marginBottom: 'clamp(20px, 4vw, 24px)',
+                            textAlign: 'center'
+                        }}>
+                            <p style={{
+                                fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)',
+                                color: 'rgba(255,255,255,0.8)',
+                                lineHeight: '1.7',
+                                marginBottom: 'clamp(16px, 4vw, 20px)'
+                            }}>
+                                Valor de mercado de una consulta personalizada conmigo: <strong style={{ color: 'white' }}>$500/hora</strong><br/>
+                                Valor de un psicólogo especializado en relaciones: <strong style={{ color: 'white' }}>$200/sesión</strong>
+                            </p>
+
+                            <p style={{
+                                fontSize: 'clamp(1.05rem, 4vw, 1.25rem)',
+                                color: 'white',
+                                fontWeight: '700',
+                                marginBottom: 'clamp(12px, 3vw, 16px)'
+                            }}>
+                                Tú no vas a pagar $500.<br/>
+                                Ni $200.<br/>
+                                Ni siquiera $123.
+                            </p>
+
+                            <div style={{
+                                background: 'rgba(0,0,0,0.4)',
+                                padding: 'clamp(16px, 4vw, 20px)',
+                                borderRadius: '12px',
+                                marginBottom: 'clamp(16px, 4vw, 20px)'
+                            }}>
+                                <p style={{
+                                    fontSize: 'clamp(1rem, 4vw, 1.2rem)',
+                                    color: '#facc15',
+                                    fontWeight: '700',
+                                    marginBottom: 'clamp(8px, 2vw, 10px)'
+                                }}>
+                                    Por haber completado el análisis personalizado,<br/>
+                                    tu acceso HOY es:
+                                </p>
+                                <p style={{
+                                    fontSize: 'clamp(3rem, 10vw, 4.5rem)',
+                                    color: '#10b981',
+                                    fontWeight: '900',
+                                    margin: 0,
+                                    lineHeight: '1'
+                                }}>
+                                    $17
+                                </p>
+                                <p style={{
+                                    fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
+                                    color: 'rgba(255,255,255,0.7)',
+                                    margin: 'clamp(8px, 2vw, 10px) 0 0 0',
+                                    fontStyle: 'italic'
+                                }}>
+                                    Pago único. Acceso de por vida. Disponible en cualquier dispositivo.
+                                </p>
+                            </div>
+
+                            <div style={{
+                                background: 'rgba(16, 185, 129, 0.2)',
+                                border: '2px solid rgba(16, 185, 129, 0.4)',
+                                borderRadius: '10px',
+                                padding: 'clamp(12px, 3vw, 14px)'
+                            }}>
+                                <p style={{
+                                    fontSize: 'clamp(1rem, 4vw, 1.2rem)',
+                                    color: '#4ade80',
+                                    fontWeight: '900',
+                                    margin: 0
+                                }}>
+                                    🔥 86% DE DESCUENTO (solo por {formatTime(timeLeft)})
+                                </p>
+                            </div>
                         </div>
 
                         <button 
                             className="cta-button btn-green btn-size-4 btn-animation-glowshake" 
                             onClick={handleCTAClick}
                             style={{
-                                fontSize: 'clamp(1.1rem, 4.5vw, 1.5rem)',
-                                padding: 'clamp(18px, 4vw, 24px)',
-                                lineHeight: '1.4'
+                                fontSize: 'clamp(1.25rem, 5vw, 1.75rem)',
+                                padding: 'clamp(20px, 4.5vw, 28px)',
+                                lineHeight: '1.3',
+                                marginBottom: 'clamp(12px, 3vw, 16px)'
                             }}
                         >
-                            <span style={{ display: 'block', marginBottom: '4px' }}>
-                                🚀 SÍ, QUIERO ACCESO POR $17
-                            </span>
-                            <span style={{ 
-                                display: 'block', 
-                                fontSize: 'clamp(0.8rem, 3vw, 1rem)',
-                                opacity: 0.9,
-                                fontWeight: '600'
-                            }}>
-                                ⏰ {formatTime(timeLeft)} RESTANTES
-                            </span>
+                            🚀 SÍ, QUIERO RECUPERAR{gender === 'HOMBRE' ? 'LA' : 'LO'} POR $17
                         </button>
 
-                        <div className="guarantee-section" style={{
+                        <p style={{
+                            textAlign: 'center',
+                            fontSize: 'clamp(0.85rem, 3.5vw, 1rem)',
+                            color: 'rgba(255,255,255,0.6)',
+                            marginBottom: 'clamp(24px, 5vw, 32px)',
+                            fontStyle: 'italic'
+                        }}>
+                            ⏰ Tu análisis expira en: <strong style={{ color: '#facc15' }}>{formatTime(timeLeft)}</strong>
+                        </p>
+
+                        <div style={{
                             background: 'linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(16, 185, 129, 0.1))',
                             border: '3px solid rgba(74, 222, 128, 0.4)',
                             borderRadius: '16px',
-                            padding: 'clamp(20px, 5vw, 32px)',
-                            margin: 'clamp(24px, 5vw, 32px) 0',
+                            padding: 'clamp(24px, 5vw, 32px)',
+                            margin: '0 0 clamp(32px, 6vw, 40px) 0',
                             textAlign: 'center',
                             boxShadow: '0 8px 32px rgba(74, 222, 128, 0.3)'
                         }}>
-                            <div style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', marginBottom: '12px' }}>
+                            <div style={{ fontSize: 'clamp(3.5rem, 12vw, 5rem)', marginBottom: 'clamp(12px, 3vw, 16px)' }}>
                                 🛡️
                             </div>
                             <h3 style={{
-                                fontSize: 'clamp(1.25rem, 5vw, 1.75rem)',
+                                fontSize: 'clamp(1.4rem, 6vw, 2rem)',
                                 color: '#4ade80',
-                                marginBottom: 'clamp(12px, 3vw, 16px)',
-                                fontWeight: '900'
+                                marginBottom: 'clamp(16px, 4vw, 20px)',
+                                fontWeight: '900',
+                                textTransform: 'uppercase'
                             }}>
                                 GARANTÍA BLINDADA DE 30 DÍAS
                             </h3>
                             <p style={{
-                                fontSize: 'clamp(0.95rem, 4vw, 1.15rem)',
-                                lineHeight: '1.6',
+                                fontSize: 'clamp(1.05rem, 4vw, 1.25rem)',
+                                lineHeight: '1.7',
                                 color: 'white',
-                                marginBottom: '16px'
+                                marginBottom: 'clamp(16px, 4vw, 20px)'
                             }}>
-                                Si en 30 días no ves resultados concretos en tu reconquista, 
-                                <strong style={{ color: '#4ade80' }}> devolvemos el 100% de tu dinero</strong>, 
-                                sin preguntas, sin burocracia.
+                                Si en 30 días no ves <strong style={{ color: '#4ade80' }}>resultados concretos</strong> en tu reconquista 
+                                (mensajes de {gender === 'HOMBRE' ? 'ella' : 'él'}, cambio de actitud, reaproximación), 
+                                <strong style={{ color: '#4ade80' }}> devolvemos el 100% de tu dinero</strong>.
                             </p>
                             <p style={{
-                                fontSize: 'clamp(0.85rem, 3.5vw, 1rem)',
-                                color: 'rgba(255,255,255,0.8)',
-                                fontStyle: 'italic'
+                                fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)',
+                                color: 'rgba(255,255,255,0.85)',
+                                lineHeight: '1.6'
                             }}>
-                                ✓ Riesgo CERO para ti<br/>
+                                ✓ Sin preguntas incómodas<br/>
+                                ✓ Sin burocracia<br/>
                                 ✓ Reembolso en 24-48 horas<br/>
-                                ✓ Sin complicaciones
+                                ✓ <strong style={{ color: '#facc15' }}>RIESGO CERO PARA TI</strong>
                             </p>
                         </div>
 
-                        <div className="real-proof-box">
-                            <p>⭐ <strong>4.8/5 estrellas</strong> (2.341 avaliações verificadas)</p>
-                            <p>📱 Última compra hace 4 minutos</p>
-                        </div>
-
-                        <div className="trust-icons">
-                            <span>🔒 Compra segura</span>
-                            <span>✅ Acceso instantáneo</span>
-                            <span>↩️ 30 días de garantía</span>
-                        </div>
-
-                        <div className="final-urgency-grid-optimized">
-                            <div className="urgency-item-compact">
-                                <span style={{ fontSize: 'clamp(0.75rem, 3vw, 0.875rem)', opacity: 0.8 }}>Tiempo:</span>
-                                <strong style={{ fontSize: 'clamp(1rem, 4vw, 1.25rem)' }}>{formatTime(timeLeft)}</strong>
-                            </div>
-                            <div className="urgency-item-compact">
-                                <span style={{ fontSize: 'clamp(0.75rem, 3vw, 0.875rem)', opacity: 0.8 }}>Vacantes:</span>
-                                <strong style={{ fontSize: 'clamp(1rem, 4vw, 1.25rem)' }}>{spotsLeft}/50</strong>
-                            </div>
-                        </div>
-
-                        <p className="people-buying-counter" style={{
-                            textAlign: 'center',
-                            color: 'rgb(74, 222, 128)',
-                            fontSize: 'clamp(0.75rem, 3vw, 0.875rem)',
-                            marginTop: 'clamp(12px, 3vw, 16px)',
-                            marginBottom: 'clamp(8px, 2vw, 12px)',
-                            lineHeight: '1.5',
-                            fontWeight: '500',
-                            opacity: 0.85
+                        <div style={{
+                            background: 'rgba(0,0,0,0.3)',
+                            border: '2px solid rgba(255,255,255,0.1)',
+                            borderRadius: '16px',
+                            padding: 'clamp(20px, 5vw, 28px)',
+                            marginBottom: 'clamp(32px, 6vw, 40px)'
                         }}>
-                            ✨ {peopleBuying} comprando ahora
-                        </p>
+                            <h3 style={{
+                                fontSize: 'clamp(1.25rem, 5vw, 1.6rem)',
+                                color: 'white',
+                                fontWeight: '900',
+                                textAlign: 'center',
+                                marginBottom: 'clamp(20px, 4vw, 24px)'
+                            }}>
+                                ❓ PREGUNTAS FRECUENTES
+                            </h3>
 
-                        <p className="social-proof-count" style={{
-                            textAlign: 'center',
-                            color: 'rgb(74, 222, 128)',
-                            fontSize: 'clamp(0.75rem, 3vw, 0.875rem)',
-                            marginBottom: 'clamp(8px, 2vw, 12px)',
-                            lineHeight: '1.5',
-                            fontWeight: '500',
-                            opacity: 0.85
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 'clamp(16px, 4vw, 20px)'
+                            }}>
+                                <div style={{
+                                    background: 'rgba(234, 179, 8, 0.1)',
+                                    borderLeft: '4px solid #eab308',
+                                    padding: 'clamp(14px, 3.5vw, 16px)',
+                                    borderRadius: '8px'
+                                }}>
+                                    <p style={{
+                                        fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                                        color: '#facc15',
+                                        fontWeight: '700',
+                                        marginBottom: '8px'
+                                    }}>
+                                        ¿Funciona si {gender === 'HOMBRE' ? 'ella ya está con otro' : 'él ya está con otra'}?
+                                    </p>
+                                    <p style={{
+                                        fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
+                                        color: 'rgba(255,255,255,0.9)',
+                                        margin: 0,
+                                        lineHeight: '1.6'
+                                    }}>
+                                        <strong style={{ color: '#4ade80' }}>✅ Sí.</strong> El Módulo 4 (Protocolo de Emergencia) 
+                                        fue creado específicamente para esa situación. Ya salvó +2.100 casos donde {gender === 'HOMBRE' ? 'ella estaba con otro tipo' : 'él estaba con otra persona'}.
+                                    </p>
+                                </div>
+
+                                <div style={{
+                                    background: 'rgba(234, 179, 8, 0.1)',
+                                    borderLeft: '4px solid #eab308',
+                                    padding: 'clamp(14px, 3.5vw, 16px)',
+                                    borderRadius: '8px'
+                                }}>
+                                    <p style={{
+                                        fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                                        color: '#facc15',
+                                        fontWeight: '700',
+                                        marginBottom: '8px'
+                                    }}>
+                                        ¿Cuánto tiempo lleva ver resultados?
+                                    </p>
+                                    <p style={{
+                                        fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
+                                        color: 'rgba(255,255,255,0.9)',
+                                        margin: 0,
+                                        lineHeight: '1.6'
+                                    }}>
+                                        <strong style={{ color: '#4ade80' }}>La Ventana de 72 Horas empieza HOY.</strong> 
+                                        La mayoría de los hombres ven los primeros cambios (mensajes, miradas, señales) 
+                                        entre el día 7 y 21. Casos de emergencia pueden llevar hasta 45 días.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button 
+                            className="cta-button btn-green btn-size-4 btn-animation-pulse" 
+                            onClick={handleCTAClick}
+                            style={{
+                                fontSize: 'clamp(1.25rem, 5vw, 1.75rem)',
+                                padding: 'clamp(20px, 4.5vw, 28px)',
+                                lineHeight: '1.3',
+                                marginBottom: 'clamp(20px, 4vw, 24px)'
+                            }}
+                        >
+                            ✅ ACCEDER A MI PLAN PERSONALIZADO →
+                        </button>
+
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 1fr',
+                            gap: 'clamp(12px, 3vw, 16px)',
+                            marginBottom: 'clamp(20px, 4vw, 24px)'
                         }}>
-                            ✓ +9.247 reconquistas exitosas
-                        </p>
+                            <div style={{
+                                background: 'rgba(0,0,0,0.3)',
+                                padding: 'clamp(12px, 3vw, 14px)',
+                                borderRadius: '10px',
+                                textAlign: 'center',
+                                border: '2px solid rgba(234, 179, 8, 0.3)'
+                            }}>
+                                <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.7)', margin: '0 0 6px 0' }}>
+                                    ⏰ Expira en:
+                                </p>
+                                <p style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.4rem)', color: '#facc15', fontWeight: '900', margin: 0 }}>
+                                    {formatTime(timeLeft)}
+                                </p>
+                            </div>
 
-                        <p className="guarantee-text" style={{
+                            <div style={{
+                                background: 'rgba(0,0,0,0.3)',
+                                padding: 'clamp(12px, 3vw, 14px)',
+                                borderRadius: '10px',
+                                textAlign: 'center',
+                                border: '2px solid rgba(234, 179, 8, 0.3)'
+                            }}>
+                                <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.7)', margin: '0 0 6px 0' }}>
+                                    🔥 Vacantes:
+                                </p>
+                                <p style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.4rem)', color: '#f97316', fontWeight: '900', margin: 0 }}>
+                                    {spotsLeft}/50
+                                </p>
+                            </div>
+                        </div>
+
+                        <div style={{
+                            background: 'rgba(74, 222, 128, 0.1)',
+                            border: '2px solid rgba(74, 222, 128, 0.3)',
+                            borderRadius: '10px',
+                            padding: 'clamp(14px, 3.5vw, 16px)',
                             textAlign: 'center',
-                            fontSize: 'clamp(0.75rem, 3vw, 0.875rem)',
+                            marginBottom: 'clamp(16px, 4vw, 20px)'
+                        }}>
+                            <p style={{
+                                fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
+                                color: '#4ade80',
+                                fontWeight: '700',
+                                margin: 0
+                            }}>
+                                ⭐ 4.8/5 estrellas • +9.247 reconquistas exitosas<br/>
+                                <span style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', opacity: 0.8 }}>
+                                    ✨ {peopleBuying} personas comprando ahora
+                                </span>
+                            </p>
+                        </div>
+
+                        <p style={{
+                            textAlign: 'center',
+                            fontSize: 'clamp(0.8rem, 3vw, 0.95rem)',
                             lineHeight: '1.6',
-                            color: 'rgba(255, 255, 255, 0.7)',
-                            padding: '0 8px'
+                            color: 'rgba(255, 255, 255, 0.6)',
+                            fontStyle: 'italic',
+                            margin: 0
                         }}>
-                            Exclusivo para quien completó el análisis personalizado
+                            🔒 Compra 100% segura • Acceso instantáneo • 30 días de garantía blindada
                         </p>
+
                     </div>
                 )}
             </div>
@@ -1330,17 +1498,6 @@ export default function Result({ onNavigate }: ResultProps) {
                 }
 
                 .offer-section-custom { background: rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; padding: clamp(20px, 5vw, 40px); margin-bottom: 30px; }
-                .offer-badge { display: inline-block; background: #f97316; color: black; padding: 8px 16px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; font-size: clamp(0.8rem, 3vw, 0.95rem); }
-                .offer-title-main { font-size: clamp(1.5rem, 6vw, 2rem); color: white; margin: 0 0 30px 0; font-weight: 900; text-align: center; }
-                .value-stack-box { }
-                .value-item { }
-                .price-box { text-align: center; margin-bottom: 25px; }
-                .price-old { text-decoration: line-through; opacity: 0.6; margin: 0; font-size: clamp(0.9rem, 3.5vw, 1.1rem); }
-                .price-new { font-size: clamp(2.5rem, 8vw, 3.5rem); color: #facc15; font-weight: 900; margin: 5px 0; }
-                .price-discount { color: #4ade80; font-weight: bold; font-size: clamp(0.9rem, 3.5vw, 1.1rem); }
-                .offer-features { display: flex; flex-direction: column; gap: clamp(12px, 3vw, 16px); margin-bottom: clamp(24px, 5vw, 32px); }
-                .feature { display: flex; align-items: flex-start; gap: clamp(10px, 3vw, 12px); padding: clamp(8px, 2vw, 12px) 0; }
-                .check-icon { min-width: clamp(20px, 5vw, 24px); width: clamp(20px, 5vw, 24px); height: clamp(20px, 5vw, 24px); margin-top: 2px; color: #4ade80; }
                 .cta-button { width: 100%; color: black; font-weight: 900; padding: 20px; border-radius: 12px; border: 3px solid white; cursor: pointer; margin-top: 20px; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-size: clamp(1rem, 4vw, 1.5rem); }
                 .cta-button:disabled { opacity: 0.6; cursor: not-allowed; filter: grayscale(50%); }
                 .cta-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
@@ -1360,16 +1517,6 @@ export default function Result({ onNavigate }: ResultProps) {
                 .btn-animation-glowshake { animation: glowshake 2s infinite; }
                 .checkmark-container { display: flex; justify-content: center; align-items: center; margin-top: 20px; min-height: 80px; }
                 .checkmark-glow { font-size: 4rem; animation: checkmarkShine 1s ease-in-out; }
-                .guarantee-section { }
-                .real-proof-box { background: rgba(74, 222, 128, 0.1); border: 2px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 15px; text-align: center; color: #4ade80; margin: 20px 0; }
-                .real-proof-box p { margin: 5px 0; font-size: clamp(0.85rem, 3.5vw, 1rem); }
-                .trust-icons { display: flex; justify-content: center; gap: 15px; color: #4ade80; font-size: 0.85rem; margin-bottom: 20px; flex-wrap: wrap; }
-                .final-urgency-grid-optimized { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 2vw, 12px); margin: clamp(16px, 4vw, 20px) 0; }
-                .urgency-item-compact { background: rgba(0,0,0,0.3); padding: clamp(10px, 3vw, 12px); border-radius: 8px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
-                .people-buying-counter { text-align: center; color: rgb(74, 222, 128); font-size: clamp(0.75rem, 3vw, 0.875rem); margin-top: clamp(12px, 3vw, 16px); margin-bottom: clamp(8px, 2vw, 12px); line-height: 1.5; font-weight: 500; opacity: 0.85; }
-                .social-proof-count { text-align: center; color: rgb(74, 222, 128); font-size: clamp(0.75rem, 3vw, 0.875rem); margin-bottom: clamp(8px, 2vw, 12px); line-height: 1.5; font-weight: 500; opacity: 0.85; }
-                .guarantee-text { text-align: center; font-size: clamp(0.75rem, 3vw, 0.875rem); line-height: 1.6; color: rgba(255, 255, 255, 0.7); padding: 0 8px; }
-                .pre-offer-video-section { }
                 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
                 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
                 @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
