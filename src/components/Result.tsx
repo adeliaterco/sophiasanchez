@@ -863,7 +863,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                         borderRadius: '6px',
                                         display: 'inline-block'
                                     }}>
-                                        CASI EL DOBLE DE VALOR
+                                        MENOS QUE UN CAFÉ
                                     </p>
                                 </div>
                                 
