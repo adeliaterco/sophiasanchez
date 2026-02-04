@@ -699,7 +699,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             lineHeight: '1.2',
                             marginBottom: 'clamp(12px, 3vw, 16px)'
                         }}>
-                            Recupera A {gender === 'HOMBRE' ? 'La Mujer Que Amas' : 'El Hombre Que Amas'} En 72 Horas
+                            Recupera A {gender === 'HOMBRE' ? 'La Mujer Que Amas' : 'El Hombre Que Amas'}
                         </h2>
                         
                         <p style={{
