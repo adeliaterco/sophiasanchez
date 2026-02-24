@@ -15,21 +15,18 @@ export default function Landing({ onNavigate }: LandingProps) {
             const urlParams = new URLSearchParams(window.location.search);
             const utms: Record<string, string> = {};
 
-            // Captura UTMs padrão
             const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
             utmParams.forEach(param => {
                 const value = urlParams.get(param);
                 if (value) utms[param] = value;
             });
 
-            // Captura Click IDs
             const clickIds = ['fbclid', 'gclid', 'ttclid'];
             clickIds.forEach(param => {
                 const value = urlParams.get(param);
                 if (value) utms[param] = value;
             });
 
-            // Armazena no localStorage
             if (Object.keys(utms).length > 0) {
                 localStorage.setItem('quiz_utms', JSON.stringify(utms));
                 console.log('✅ UTMs capturadas:', utms);
@@ -49,7 +46,6 @@ export default function Landing({ onNavigate }: LandingProps) {
         ga4Tracking.landingPageView();
 
         // Removido: scrollObserver (não necessário)
-
     }, []);
 
     const handleCTAClick = () => {
@@ -65,23 +61,28 @@ export default function Landing({ onNavigate }: LandingProps) {
 
             <div className="content-wrapper">
                 <main className="landing-main-simple">
-                    
+
                     {/* ========================================
-                        🆕 HEADLINE NOVA - ESTILO IMAGEM ANEXADA
+                        ✅ HEADLINE NOVA - COPY ATUALIZADA
                         ======================================== */}
                     <h1 className="headline-simple">
-                        <span className="alert-emoji">⚠️</span>
                         <span className="headline-text">
-                            <span className="highlight-orange">ATENCIÓN</span>: Hay un <span className="highlight-orange-italic">truco sucio</span>, pero <span className="highlight-orange">efectivo</span> para recuperar a tu ex... 💔, ¡y <span className="highlight-orange">está aquí</span>! Entonces no uses <span className="highlight-orange">esto 👇</span>, si no estás listo para que <span className="highlight-orange">vuelva rogando</span>!
+                            El silencio de tu ex <span className="highlight-orange">no significa que sea tarde</span>.<br />
+                            Pero cada día que pasa, <span className="highlight-orange">se vuelve más difícil</span>.
                         </span>
                     </h1>
+
+                    {/* ✅ SUB - NOVO ELEMENTO */}
+                    <p className="subtitle-simple">
+                        Responde 7 preguntas y te digo el <strong>próximo paso exacto</strong> para que ella vuelva a verte.
+                    </p>
 
                     {/* CTA GRANDE COM ANIMAÇÃO DE PULSAÇÃO */}
                     <div className="cta-section-simple">
                         <button className="cta-button-simple" onClick={handleCTAClick}>
                             <span className="cta-glow"></span>
                             <span className="cta-icon">⏰</span>
-                            <span className="cta-text">DESCUBRIR ANTES QUE SEA TARDE</span>
+                            <span className="cta-text">DESCUBRIR SI AÚN HAY TIEMPO</span>
                         </button>
                     </div>
 
@@ -90,7 +91,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                 {/* FOOTER MINIMALISTA */}
                 <footer className="landing-footer-simple">
                     <p className="disclaimer-simple">
-                        Análisis 100% privado y confidencial
+                        🔒 Anónimo • 2 minutos • Sin juicio • Sin email
                     </p>
                 </footer>
             </div>
@@ -144,7 +145,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                 }
 
                 /* ========================================
-                   🆕 HEADLINE COM DESTAQUES LARANJA/AMARELO
+                   HEADLINE COM DESTAQUES LARANJA/AMARELO
                    ======================================== */
                 .headline-simple {
                     text-align: center;
@@ -170,7 +171,6 @@ export default function Landing({ onNavigate }: LandingProps) {
                     line-height: 1.3;
                 }
 
-                /* 🆕 DESTAQUES EM GRADIENTE LARANJA/AMARELO */
                 .highlight-orange {
                     background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
                     -webkit-background-clip: text;
@@ -188,6 +188,21 @@ export default function Landing({ onNavigate }: LandingProps) {
                     font-style: italic;
                 }
 
+                /* ✅ NOVO - SUBTITLE */
+                .subtitle-simple {
+                    text-align: center;
+                    font-size: 1.25rem;
+                    color: rgba(255, 255, 255, 0.85);
+                    line-height: 1.6;
+                    margin: 0;
+                    max-width: 580px;
+                }
+
+                .subtitle-simple strong {
+                    color: #fff;
+                    font-weight: 700;
+                }
+
                 @keyframes pulse {
                     0%, 100% { 
                         opacity: 1; 
@@ -200,7 +215,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                 }
 
                 /* ========================================
-                   🆕 CTA COM ANIMAÇÃO DE PULSAÇÃO
+                   CTA COM ANIMAÇÃO DE PULSAÇÃO
                    ======================================== */
                 .cta-section-simple {
                     width: 100%;
@@ -228,11 +243,9 @@ export default function Landing({ onNavigate }: LandingProps) {
                     min-width: 90%;
                     text-transform: uppercase;
                     letter-spacing: 1px;
-                    /* 🆕 ANIMAÇÃO DE PULSAÇÃO */
                     animation: pulse-cta 2s ease-in-out infinite;
                 }
 
-                /* 🆕 KEYFRAME PARA PULSAÇÃO DO CTA */
                 @keyframes pulse-cta {
                     0%, 100% { 
                         transform: scale(1);
@@ -247,7 +260,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                 .cta-button-simple:hover {
                     transform: translateY(-4px) scale(1.05);
                     box-shadow: 0 12px 32px rgba(255, 59, 59, 0.6);
-                    animation: none; /* Remove pulsação no hover */
+                    animation: none;
                 }
 
                 .cta-button-simple:active {
@@ -306,6 +319,10 @@ export default function Landing({ onNavigate }: LandingProps) {
                         font-size: 1.6rem;
                     }
 
+                    .subtitle-simple {
+                        font-size: 1.1rem;
+                    }
+
                     .cta-button-simple {
                         padding: 1.5rem 2rem;
                         font-size: 1.2rem;
@@ -320,6 +337,10 @@ export default function Landing({ onNavigate }: LandingProps) {
                 @media (max-width: 480px) {
                     .headline-text {
                         font-size: 1.4rem;
+                    }
+
+                    .subtitle-simple {
+                        font-size: 1rem;
                     }
 
                     .cta-button-simple {
