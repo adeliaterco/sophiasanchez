@@ -1013,7 +1013,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                                 fontSize: 'clamp(0.7rem, 2.8vw, 0.8rem)',
                                                 color: 'rgba(255,255,255,0.6)'
                                             }}>
-                                                • Buenos Aires, Argentina • 4 días atrás
+                                                 • 4 días atrás
                                             </span>
                                         </div>
                                         <div style={{
@@ -1079,7 +1079,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                                 fontSize: 'clamp(0.7rem, 2.8vw, 0.8rem)',
                                                 color: 'rgba(255,255,255,0.6)'
                                             }}>
-                                                • Madrid, España • Ayer
+                                                
                                             </span>
                                         </div>
                                         <div style={{
