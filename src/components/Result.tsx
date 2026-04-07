@@ -442,7 +442,7 @@ export default function Result({ onNavigate }: ResultProps) {
                         </div>
 
                         <img 
-                            src="" 
+                            src="https://comprarplanseguro.shop/wp-content/uploads/2025/10/imagem3-nova.webp" 
                             alt="Ventana 72h - Fundamento Científico" 
                             className="ventana-img-top"
                         />
