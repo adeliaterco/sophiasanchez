@@ -45,8 +45,8 @@ export const playKeySound = () => {
 export const getHotmartUrl = (plan?: number): string => {
   // Define os links base para cada plano (por enquanto repetidos - trocar depois)
   const baseUrls: { [key: number]: string } = {
-    14: 'https://pay.kiwify.com/7n2Vb5l', // ← TROCAR LINK DO PLANO $14
-    27: 'https://pay.kiwify.com/X9Uc2Bc'  // ← TROCAR LINK DO PLANO $27
+    14: 'https://go.centerpag.com/PPU38CQA48J', // ← TROCAR LINK DO PLANO $14
+    27: 'https://go.centerpag.com/PPU38CQA482'  // ← TROCAR LINK DO PLANO $27
   };
   
   // Se não passar plano ou plano inválido, usa o de $27 como padrão
