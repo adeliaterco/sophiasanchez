@@ -65,5 +65,5 @@ export const getHotmartUrl = (plan?: number): string => {
   utmParams.push(`sck=${timestamp + 1000}`);
   utmParams.push(`bid=${timestamp + 2000}`);
 
-  return `${baseUrl}&${utmParams.join('&')}`;
+  return `${baseUrl}?${utmParams.join('&')}`;
 };
