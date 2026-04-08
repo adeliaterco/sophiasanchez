@@ -176,12 +176,12 @@ export default function Result({ onNavigate }: ResultProps) {
             if (vslPlaceholder) {
                 vslPlaceholder.innerHTML = `
                     <div style="position: relative; width: 100%; max-width: 400px; margin: 0 auto; aspect-ratio: 9 / 16; background: #000; border-radius: 8px; overflow: hidden;">
-                        <vturb-smartplayer id="vid-69c54b64717734693ca43c30" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
+                        <vturb-smartplayer id="vid-69d6806033bd8011178d3c60" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
                     </div>
                 `;
-                if (!document.querySelector('script[src*="69c54b64717734693ca43c30"]')) {
+                if (!document.querySelector('script[src*="69d6806033bd8011178d3c60"]')) {
                     const s = document.createElement("script");
-                    s.src = "https://scripts.converteai.net/ebb9ea25-2e5f-4f3f-9b53-09066b18c972/players/69c54b64717734693ca43c30/v4/player.js";
+                    s.src = "https://scripts.converteai.net/83e204fd-8645-4b2e-a2f5-f2ef3e7964f4/players/69d6806033bd8011178d3c60/v4/player.js";
                     s.async = true;
                     document.head.appendChild(s);
                 }
