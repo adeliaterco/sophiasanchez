@@ -77,14 +77,6 @@ export default function Result({ onNavigate }: ResultProps) {
         }
     };
 
-    const appendUTMsToHotmartURL = (plan?: number): string => {
-        const baseURL = getHotmartUrl(plan);
-        const utms = getUTMs();
-        if (Object.keys(utms).length === 0) return baseURL;
-        const url = new URL(baseURL);
-        Object.entries(utms).forEach(([key, value]) => url.searchParams.set(key, value as string));
-        return url.toString();
-    };
 
     useEffect(() => {
         ensureUTMs();
@@ -278,7 +270,7 @@ export default function Result({ onNavigate }: ResultProps) {
             return;
         }
         ga4Tracking.ctaBuyClicked('result_buy_main');
-        window.open(appendUTMsToHotmartURL(selectedPlan), '_blank');
+        window.open(getHotmartUrl(selectedPlan), '_blank');
     };
 
     const getDelayEmoji = (secondsLeft: number) => {
