@@ -181,7 +181,7 @@ export default function Result({ onNavigate }: ResultProps) {
                 `;
                 if (!document.querySelector('script[src*="6a66584fff3cfdb81bc5d572"]')) {
                     const s = document.createElement("script");
-                    s.src = "https://scripts.converteai.net/c4ba35a0-50bf-4f50-900f-6ea4a02528dd/players/6a1d952ecdc9bce3a114c809/v4/player.js";
+                    s.src = "https://scripts.converteai.net/808df5c4-b57d-4337-85aa-ecb74facae65/players/6a66584fff3cfdb81bc5d572/v4/player.js";
                     s.async = true;
                     document.head.appendChild(s);
                 }
