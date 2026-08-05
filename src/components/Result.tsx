@@ -176,10 +176,10 @@ export default function Result({ onNavigate }: ResultProps) {
             if (vslPlaceholder) {
                 vslPlaceholder.innerHTML = `
                     <div style="position: relative; width: 100%; max-width: 400px; margin: 0 auto; aspect-ratio: 9 / 16; background: #000; border-radius: 8px; overflow: hidden;">
-                        <vturb-smartplayer id="vid-6a1d952ecdc9bce3a114c809" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
+                        <vturb-smartplayer id="vid-6a66584fff3cfdb81bc5d572" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
                     </div>
                 `;
-                if (!document.querySelector('script[src*="6a1d952ecdc9bce3a114c809"]')) {
+                if (!document.querySelector('script[src*="6a66584fff3cfdb81bc5d572"]')) {
                     const s = document.createElement("script");
                     s.src = "https://scripts.converteai.net/c4ba35a0-50bf-4f50-900f-6ea4a02528dd/players/6a1d952ecdc9bce3a114c809/v4/player.js";
                     s.async = true;
