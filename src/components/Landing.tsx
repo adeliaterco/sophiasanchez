@@ -67,15 +67,11 @@ export default function Landing({ onNavigate }: LandingProps) {
                         ======================================== */}
                     <h1 className="headline-simple">
                         <span className="headline-text">
-                            El silencio de tu ex <span className="highlight-orange">no significa que sea tarde</span>.<br />
-                            Pero cada día que pasa, <span className="highlight-orange">se vuelve más difícil</span>.
+                            <span className="phrase-primary">Crees que ser un hombre 'bueno, paciente y comprensivo'<span className="highlight-orange">es lo que la traerá de vuelta?</span></span><br />
+                            <span className="phrase-secondary">Sí, eso es exactamente lo que el hombre que ella dejó de desear piensa mientras ve <span className="highlight-orange">cómo su propia relación se muere</span>.</span>
                         </span>
                     </h1>
 
-                    {/* ✅ SUB - NOVO ELEMENTO */}
-                    <p className="subtitle-simple">
-                        Responde 7 preguntas y te digo el <strong>próximo paso exacto</strong> para que ella vuelva a verte.
-                    </p>
 
                     {/* CTA GRANDE COM ANIMAÇÃO DE PULSAÇÃO */}
                     <div className="cta-section-simple">
@@ -85,6 +81,11 @@ export default function Landing({ onNavigate }: LandingProps) {
                             <span className="cta-text">DESCUBRIR SI AÚN HAY TIEMPO</span>
                         </button>
                     </div>
+
+                                        {/* ✅ SUB - NOVO ELEMENTO */}
+                    <p className="subtitle-simple">
+                        Responde 7 preguntas y te digo el <strong>próximo paso exacto</strong> para que ella vuelva a verte.
+                    </p>
 
                 </main>
 
@@ -169,6 +170,17 @@ export default function Landing({ onNavigate }: LandingProps) {
                     font-size: 2.2rem;
                     font-weight: 700;
                     line-height: 1.3;
+                }
+
+                .phrase-primary {
+                    font-weight: 800;
+                    font-size: 1.05em;
+                }
+
+                .phrase-secondary {
+                    font-weight: 600;
+                    font-size: 0.95em;
+                    opacity: 0.9;
                 }
 
                 .highlight-orange {
