@@ -976,7 +976,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                 }}>
                                     {/* Avatar Mateo - COLE O LINK DA FOTO NO src="" */}
                                     <img 
-                                        src="https://i.ibb.co/SXrh3Tds/Generatedimage-1768685267274.png" 
+                                        src="https://i.ibb.co/Y4D1b7QY/Editedimage-1785946907147.jpg" 
                                         alt="Mateo R." 
                                         style={{
                                             width: 'clamp(55px, 14vw, 70px)',
@@ -999,7 +999,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
                                                 color: '#10b981'
                                             }}>
-                                                Mateo R.
+                                                Jose R.
                                             </strong>
                                             <span style={{
                                                 fontSize: 'clamp(0.7rem, 2.8vw, 0.8rem)',
@@ -1042,7 +1042,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                 }}>
                                     {/* Avatar Pablo - COLE O LINK DA FOTO NO src="" */}
                                     <img 
-                                        src="https://i.ibb.co/XdsjWTm/Generatedimage-1768481087053.png" 
+                                        src="https://i.ibb.co/yB6rKdt3/Generatedimage-1785944179924.jpg" 
                                         alt="Pablo S." 
                                         style={{
                                             width: 'clamp(55px, 14vw, 70px)',
@@ -1065,7 +1065,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
                                                 color: '#10b981'
                                             }}>
-                                                Pablo S.
+                                                Antonio S.
                                             </strong>
                                             <span style={{
                                                 fontSize: 'clamp(0.7rem, 2.8vw, 0.8rem)',
